@@ -278,7 +278,7 @@ export default {
        let githubTokenUrl = window.localStorage.getItem('githubToken');
        console.log(setTokenUrl, githubTokenUrl);
 
-      this.$http.get('/user').then((res) =>{
+      this.$http.get('/article/categories').then((res) =>{
           console.log(res, 1111);
       }).catch(e=>e)
    }
