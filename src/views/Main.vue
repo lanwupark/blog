@@ -272,11 +272,10 @@ export default {
        let githubToken = url.split("&")[1].split("=")[1];
        console.log(githubToken);
 
-       window.localStorage.setItem('setToken', JSON.stringify(setToken));
-       let setTokenUrl = window.localStorage.getItem('setToken');
-       window.localStorage.setItem('githubToken', JSON.stringify(githubToken));
-       let githubTokenUrl = window.localStorage.getItem('githubToken');
-       console.log(setTokenUrl, githubTokenUrl);
+       window.localStorage.setItem('Token', setToken.toString());
+    //    let setTokenUrl = window.localStorage.getItem('Token');
+       window.localStorage.setItem('githubToken', githubToken.toString());
+    //    let githubTokenUrl = window.localStorage.getItem('githubToken');
 
       this.$http.get('/article/categories').then((res) =>{
           console.log(res, 1111);

@@ -102,7 +102,7 @@ export default {
                 // 自定义header信息（比如token）
                 // console.log("请求拦截器添加userId-----------",sessionStorage.userId)
                 if(!config.headers['Authorization']){
-                    config.headers['Authorization'] = localStorage.getItem("githubToken");
+                    config.headers['Authorization'] = localStorage.getItem("Token");
                 }
                 // console.log(config)
                 return config;
@@ -114,8 +114,8 @@ export default {
 
         this.$http.interceptors.response.use(
             config => {
-                if(!config.headers['set_token']){
-                    config.headers['set_token'] = localStorage.getItem("setToken");
+                if(config.headers['Set-Token']){
+                    window.localStorage.setItem('setToken',config.headers['Set-Token']);
                 }
                 return config;
             }, function (error) {
