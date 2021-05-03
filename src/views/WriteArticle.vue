@@ -78,7 +78,7 @@ export default {
     },
     data() {
         return {
-            checkALl: false,
+            checkAll: false,
             checkedItems: [],
             category: classOptions,
             isIndeterminate: true,
@@ -97,6 +97,38 @@ export default {
         },
     },
     created() {
+        this.$http.interceptors.request.use(
+            config => {
+                // 自定义header信息（比如token）
+                // console.log("请求拦截器添加userId-----------",sessionStorage.userId)
+                if(!config.headers['Authorization']){
+                    config.headers['Authorization'] = localStorage.getItem("githubToken");
+                }
+                // console.log(config)
+                return config;
+            }, function (error) {
+                // 对请求错误做些什么
+                return Promise.reject(error);
+            }
+        );
+
+        this.$http.interceptors.response.use(
+            config => {
+                if(!config.headers['set_token']){
+                    config.headers['set_token'] = localStorage.getItem("setToken");
+                }
+                return config;
+            }, function (error) {
+                // 对请求错误做些什么
+                return Promise.reject(error);
+            }                       
+        );
+
+        this.$http.post('/article').then((res) =>{
+            console.log(res, 1111);
+        }).catch(e=>e)
+
+
         let dc = this.defaultChecks;
         if (dc) {
             for (let i = 0; i < dc.length; i++) {
@@ -109,7 +141,7 @@ export default {
             this.$emit('update:results', n)
         },
     },
-     methods: {
+    methods: {
         handleCheckAllChange(val) {
             this.checkedItems = val ? classOptions : [];
             this.isIndeterminate = false;

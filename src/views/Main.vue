@@ -106,157 +106,157 @@ export default {
     },
     data() {
       return {
-        // activeName: 'first',
-        // hotMsg: [
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        // ],
-        // lifeMsg: [
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 21,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        // ],
-        // militaryMsg: [
-        //      {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 22,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        //     {
-        //         title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-        //         website: '训练营',
-        //         tip: '考研',
-        //         time: '两天前',
-        //         comment: 20,
-        //         lastReply: 'canson'
-        //     },
-        // ]
+        activeName: 'first',
+        hotMsg: [
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+        ],
+        lifeMsg: [
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 21,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+        ],
+        militaryMsg: [
+             {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 22,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+            {
+                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+                website: '训练营',
+                tip: '考研',
+                time: '两天前',
+                comment: 20,
+                lastReply: 'canson'
+            },
+        ]
       };
     },
     methods: {
