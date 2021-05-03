@@ -115,7 +115,7 @@ export default {
         this.$http.interceptors.response.use(
             config => {
                 if(config.headers['Set-Token']){
-                    window.localStorage.setItem('setToken',config.headers['Set-Token']);
+                    window.localStorage.setItem('Token',config.headers['Set-Token']);
                 }
                 return config;
             }, function (error) {
