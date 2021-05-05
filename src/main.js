@@ -24,29 +24,32 @@ Axios.defaults.baseURL = 'http://139.198.187.220:8080'
 Axios.defaults.headers.post['Content-Type'] = 'application/json;charset="UTF-8"'
 
 
-  // // 请求拦截
-  // Axios.interceptors.request.use((config) => {
-  //     let setToken = window.localStorage.getItem('setToken');
-  //     if (setToken) {
-  //         config.headers.common['Authorization'] = setToken;
-  //     }
-  //     return config;
-  // }, (error) => {
-  //     console.log('错误的传参')
-  //     return Promise.reject(error);
-  // });
+Axios.interceptors.request.use(
+  config => {
+      // 自定义header信息（比如token）
+      // console.log("请求拦截器添加userId-----------",sessionStorage.userId)
+      if(!config.headers['Authorization']){
+          config.headers['Authorization'] = localStorage.getItem("Token");
+      }
+      // console.log(config)
+      return config;
+  }, function (error) {
+      // 对请求错误做些什么
+      return Promise.reject(error);
+  }
+);
 
-  // // 响应拦截
-  // Axios.interceptors.response.use((res) => {
-  //     //对响应数据做些事
-  //     if (!res.data.success) {
-  //         return Promise.resolve(res);
-  //     }
-  //     return res;
-  // }, (error) => {
-  //     console.log('网络异常')
-  //     return Promise.reject(error);
-  // });
+Axios.interceptors.response.use(
+  config => {
+      if(config.headers['Set-Token']){
+          window.localStorage.setItem('Token',config.headers['Set-Token']);
+      }
+      return config;
+  }, function (error) {
+      // 对请求错误做些什么
+      return Promise.reject(error);
+  }                       
+);
 // Axios.defaults.baseURL = "http://192.168.43.62:7001"
 Axios.defaults.withCredentials = true;
 

@@ -3,17 +3,17 @@
         <div class="center-box">
             <!-- 相册 -->
             <div class="album-page">
-                <div class="album-content">
-                    <!-- <span class="album-edit">编辑</span>s -->
+                <div class="album-content" v-for="(item, index) in album" :key="index">
+                    <span class="album-edit">编辑</span>
                     <!-- 相册名 -->
-                    <div class="album-title"><input type="text" placeholder="请输入相册名" ref="getTitle"></div>
+                    <div class="album-title">{{item.title}}</div>
                     <!-- 相册tip -->
                     <div class="album-tip">
-                        <span>地点：<input type="text" ref="getAddress"></span>
-                        <!-- <span>发布时间：{{item.releaseTime}}</span> -->
+                        <span>地点：{{item.address}}</span>
+                        <span>发布时间：{{item.releaseTime}}</span>
                     </div>
-                    <textarea class="album-desc" ref="getDesc"></textarea>
-                    <!-- <div class="image-items">
+                    <textarea class="album-desc" v-model="item.desc"></textarea>
+                    <div class="image-items">
                         <div class="image-item" v-for="(item, index) in personImage" :key="index">
                             <img :src="item.src" alt="">
                             <div class="image-detail">
@@ -21,18 +21,16 @@
                                 <span>{{item.time}}</span>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- 上传图片 -->
                     <el-upload
                         class="upload-pic"
                         drag
                         action="http://localhost:8080/album"
-                        multiple
-                        :on-change="uploadPic">
+                        multiple>
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
-                    <el-button type="primary" @click="onSubmit" class="createBtn">立即创建</el-button>
                 </div>
             </div>
             <!-- 头侧用户和好友列表 -->
@@ -60,13 +58,14 @@ export default {
     },
     data() {
         return {
-            album: {},
-                // {
-                //     title: '风景',
-                //     address: '重庆',
-                //     releaseTime: '2020-12-18',
-                //     desc: '重庆是一座地形地貌独特的山水城市。远看是山,近看是城,城在山上,山在城中,所以也叫“山城”',
-                // }
+            album: [
+                {
+                    title: '风景',
+                    address: '重庆',
+                    releaseTime: '2020-12-18',
+                    desc: '重庆是一座地形地貌独特的山水城市。远看是山,近看是城,城在山上,山在城中,所以也叫“山城”',
+                }
+            ],
             // 相册
             personImage: [
                 {
@@ -85,40 +84,7 @@ export default {
                     time: '2021-03-12',
                 }
             ],
-            srcName: '',
-            albumId: '',
         }
-    },
-    methods: {
-        uploadPic(file, fileList) {
-            console.log(file, 100);
-            this.srcName = file.name
-        },
-        onSubmit() {
-            // 请求
-            let that = this;
-            // 图片
-            that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`).then((res) =>{
-                console.log(333, res.data); 
-                // 相册
-                // that.$http.get('/common/album',{
-                //     AlbumID: albumId,
-                //     Title: that.$refs.getTitle.value,
-                //     Description: that.$refs.getDesc.value,
-                //     Location: that.$refs.getAddress.value,
-                // }).then((res) =>{
-                //     console.log(444, res.data);
-                // }).catch(e=>e)
-            }).catch(e=>e)
-        } 
-    },
-    created() {
-        // 请求
-        let that = this;
-        that.$http.get('/common/generate_id').then((res) =>{
-            console.log(222, res.data);
-            that.albumId = res.data.Result;
-        }).catch(e=>e)
     },
 };
 </script>
@@ -158,14 +124,6 @@ export default {
         font-size: 24px;
         font-weight: bold;
         color: #555;
-
-        input {
-            font-size: 18px;
-            width: 150px;
-            height: 50px;
-            border: none;
-            border-bottom: 1px solid #bbb;
-        }
     }
     .album-edit {
         color: #333;
@@ -185,13 +143,6 @@ export default {
         display: flex;
         justify-content: space-between;
         margin: 0 120px;
-
-        input {
-            width: 60px;
-            height: 30px;
-            border: none;
-            border-bottom: 1px solid #bbb;
-        }
     }
 
     .album-desc {
@@ -237,12 +188,6 @@ export default {
         width: 400px;
         height: 200px;
         margin: 100px 480px;
-    }
-
-    /deep/ .createBtn {
-        position: relative;
-        top: -160px;
-        left: 900px;
     }
     
 

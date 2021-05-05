@@ -4,7 +4,7 @@
         <div class="person-top">
             <img src="@/assets/img/touxiang.png" alt="">
             <div class="person-info">
-                <p class="info-name">eanson023</p>
+                <p class="info-name">{{userInfo.UserLogin}}</p>
                 <p class="info-sign">i'm out ya</p>
             </div>
         </div>
@@ -19,12 +19,26 @@
 
 <script>
     export default {
+        data() {
+            return {
+                userInfo: {},
+            }
+        },
+
+        created() {
+            // 请求
+            let that = this;
+            that.$http.get('/user').then((res) =>{
+                that.userInfo = res.data
+            }).catch(e=>e)
+
+        },
     }
 </script>
 
 <style lang="scss" scoped>
 .person-msg {
-    margin-top: 40px;
+    // margin-top: 0;
     width: 320px;
     height: 280px;
     background: #fff;

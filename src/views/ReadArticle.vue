@@ -2,34 +2,36 @@
     <div class="read-box">
         <div class="center-box">
             <!-- 阅读文章 -->
+            <div class="backMain" @click="goback">返回首页>></div>
+            <span class="backMain myArticle" @click="myArticle">我的文章>></span>
             <div class="read-page">
                 <div class="article-content">
                     <!-- 文章标题 -->
                     <div class="article-title">{{article.Title}}</div>
                     <!-- 文章tip -->
                     <div class="article-tip">
-                        <span>{{article.Hits}}点击</span>
-                        <span>作者：{{article.author}}</span>
-                        <span>发布时间：{{article.releaseTime}}</span>
+                        <span>点击：{{article.Hits}}</span>
+                        <span>作者：{{article.UserLogin}}</span>
+                        <span>发布时间：{{article.CreateAt}}</span>
                         <div class="collection">
-                            {{article.collection}}人收藏
+                            {{article.Favorities.length}}人收藏
                             <img src="../assets/img/star2.png" alt="">
                         </div>
                     </div>
                     <!-- 简介 -->
                     <div class="introduction">
                         <div class="introduction-title">1.简介</div>
-                        <div class="introduction-text">{{article.introduction}}</div>
+                        <div class="introduction-text">{{article.Content.substring(0,30)}}...</div>
                     </div>
                     <!-- 原理 -->
                     <div class="principle">
                         <div class="principle-title">2.原理</div>
-                        <div class="principle-text">{{article.principle}}</div>
+                        <div class="principle-text">{{article.Content.substring(0,50)}}...</div>
                     </div>
 
                     <!-- 点赞 -->
                     <div class="like">
-                        <div class="likeText">{{article.like}}</div>
+                        <div class="likeText">{{article.Favorities.length}}人点赞</div>
                         <img src="../assets/img/like.png" alt="">
                     </div>
                     <!-- 回复 -->
@@ -112,7 +114,20 @@ export default {
             ],
         }
     },
-     created() {
+    methods: {
+        // 返回主页
+        goback() {
+            this.$router.push('/oauth/token')
+        },
+        // 我的文章
+        myArticle() {
+            this.myArticleId;
+            this.$router.push({name: 'person', params: {
+                myArticleId: this.myArticleId
+            }})
+        },
+    },
+    created() {
         let articleDetail = this.$route.params.articleDetail;
         this.article = articleDetail;
         console.log(articleDetail, 31);
@@ -131,6 +146,23 @@ export default {
         .right {
             position: absolute;
             right: 40px;
+        }
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
+        }
+        .myArticle {
+            position: relative;
+            left: 160px;
+            top: -20px;
         }
     }
     .bottom {
@@ -185,6 +217,7 @@ export default {
         .introduction-text,
         .principle-text {
             margin-top: 10px;
+            font-size: 18px;
         }
     }
 

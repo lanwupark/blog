@@ -189,12 +189,12 @@ export default {
             }).catch(e=>e)
 
             that.$refs[formName].validate((valid) => {
-            if (valid) {
-                alert('submit!');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
+                if (valid) {
+                    alert('submit!');
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
             });
         },
         // 取消按钮置空

@@ -3,8 +3,8 @@
     <div class="friends-msg">
         <div class="friends-title">好友列表</div>
         <div class="friends-request">
-           <span>xx好友请求</span>
-           <a href="#">同意</a>
+           <span>qw好友请求</span>
+           <a href="#" @click="agree">同意</a>
            <a href="#">拒绝</a>
         </div>
         <div class="friends-list">
@@ -36,7 +36,22 @@
 
 <script>
     export default {
-        
+        methods: {
+             // 添加好友
+            agree() {
+                // 请求
+                let that = this;
+                that.$http.get('/user/friends'
+                // , {
+                //         FriendUserLogin: that.$refs.getTitle.value,
+                //         Categories: that.checkedItems,
+                //         Content: that.validateForm.text,
+                // }
+                ).then((res) =>{
+                    console.log(9, res.data);
+                }).catch(e=>e)
+            }
+        },
     }
 </script>
 

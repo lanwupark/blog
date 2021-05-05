@@ -3,69 +3,69 @@
     <div class="person-box">
         <div class="center-box">
             <!-- 个人信息 -->
+            <div class="backMain" @click="goback">返回首页>></div>
             <div class="personInfo">
                 <span class="personInfo-title">个人信息</span>
-                <div class="personInfo-user" v-for="(item, index) in userInfo" :key="index">
-                    <img class="personInfo-icon" :src="item.icon" alt="">
+                <div class="personInfo-user">
+                    <img class="personInfo-icon" :src="userHeads" alt="">
                     <div class="user-middle">
-                        <div class="userName">{{item.userName}}</div>
+                        <div class="userName">{{userInfo.UserLogin}}</div>
                         <div class="oneRow">
-                            <span class="user-bio">bio: {{item.bio}}</span>
+                            <span class="user-bio">bio: {{userInfo.bio || 'pretty pretty pretty programmer'}}</span>
                             <div class="user-collection">
                                 <span>被收藏</span> 
-                                <img src="../assets/img/star.png" alt="">
-                                {{item.collection}}
+                                <img src="../assets/img/star.png" alt="">:
+                                {{userInfo.StaredNumber}}
                             </div>
                         </div>
                         <div class="twoRow">
-                            <span class="user-email">email: {{item.email}}</span>
+                            <span class="user-email">email: {{userInfo.Email || '1234567890@qq.com'}}</span>
                             <div class="user-belike">
                                 <span>收获的赞</span>
-                                <img src="../assets/img/like.png" alt="">
-                                {{item.beLike}}
+                                <img src="../assets/img/like.png" alt="">:
+                                {{userInfo.FavoritedNumber}}
                             </div>
                         </div>
                     </div>
                     <div class="user-right">
-                        <div class="add-friends">加为好友</div>
-                        <div class="addDay">已加入Lanwupark {{item.joinDay}}天</div>
+                        <!-- <div class="add-friends" @click="addFriends">加为好友</div> -->
+                        <div class="addDay">已加入Lanwupark {{userInfo.DaysJoined}} 天</div>
                     </div>
                 </div>
                 <div class="personInfo-article">
                     <div class="article-nav">
-                        <span class="article-author">yanrui6666的文章</span>
+                        <span class="article-author">{{userInfo.UserLogin}}的文章</span>
                         <router-link to="/write" class="article-write">撰写文章</router-link>
                     </div>
                     <div class="article-items">
                          <div class="msg-item" v-for="(item, index) in personArticle" :key="index">
                             <!-- 标题、评论 收藏 点赞-->
                             <div class="item-top">
-                                <div class="msg-title">{{item.title}}</div>
+                                <div class="msg-title">{{item.Title}}</div>
                                 <div class="msg-icon">
                                     <div class="comment">
                                         <img src="../assets/img/msg2.png" alt="">
-                                        <span>{{item.comment}}</span>
+                                        <span>{{item.CommentNumber}}</span>
                                     </div>
                                     <div class="collection">
                                         <img src="../assets/img/star2.png" alt="">
-                                        <span>{{item.collection}}</span>
+                                        <span>{{item.StarNumber}}</span>
                                     </div>
                                     <div class="like">
                                         <img src="../assets/img/like.png" alt="">
-                                        <span>{{item.like}}</span>
+                                        <span>{{item.FavoriteNumber}}</span>
                                     </div>
                                 </div>
                             </div>
                             <!-- 网站、tip、时间、回复人 -->
                             <div class="item-bottom">
                                 <div class="msg-ldetail">
-                                    <span>{{item.website}}</span>
-                                    <span>{{item.tip}}</span>
+                                   <span v-for="(classItem, index) in item.Categories" :key="index">{{classItem}}</span>
                                 </div>
                                 <div class="msg-rdetail">
                                     <span>{{item.time}}</span>
                                     <span>最后回复于:</span>
-                                    <span>{{item.lastReply}}</span>
+                                    <span>{{item.LastEditDateString}}</span>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                 <div class="personInfo-image">
                     <div class="image-nav">
                         <span class="image-author">yanrui6666的相册</span>
-                        <router-link to="/" class="image-add">新建相册</router-link>
+                        <router-link to="/album" class="image-add">新建相册</router-link>
                     </div>
                     <div class="image-items">
                         <div class="image-item" v-for="(item, index) in personImage" :key="index">
@@ -117,40 +117,41 @@ export default {
     data() {
       return {
         activeName: 'first',
+        // 头像
+        userHeads: '',
         // 个人信息
-        userInfo: [
-            {
-                icon: require('../assets/img/person.png'),
-                userName: 'yanrui6666',
-                bio: 'hello world',
-                email: 'yanrui666@qq.com',
-                collection: '10',
-                beLike: '111',
-                joinDay: '320',
-            }
-        ],
+        userInfo: {},
+            // {
+            //     icon: require('../assets/img/person.png'),
+            //     userName: 'yanrui6666',
+            //     bio: 'hello world',
+            //     email: 'yanrui666@qq.com',
+            //     collection: '10',
+            //     beLike: '111',
+            //     joinDay: '320',
+            // }
         // 文章
         personArticle: [
-            {
-                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-                website: '训练营',
-                tip: '考研',
-                time: '两天前',
-                lastReply: 'canson',
-                comment: '2',
-                collection: '10',
-                like: '38',
-            },
-            {
-                title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-                website: '训练营',
-                tip: '考研',
-                time: '两天前',
-                lastReply: 'canson',
-                comment: '2',
-                collection: '10',
-                like: '38',
-            },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     lastReply: 'canson',
+            //     comment: '2',
+            //     collection: '10',
+            //     like: '38',
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     lastReply: 'canson',
+            //     comment: '2',
+            //     collection: '10',
+            //     like: '38',
+            // },
         ],
         // 相册
         personImage: [
@@ -173,17 +174,30 @@ export default {
       };
     },
     methods: {
+      // 返回主页
+      goback() {
+          this.$router.push('/oauth/token')
+      },
       handleClick(tab, event) {
         console.log(tab, event);
-      }
+      },
     },
     created() {
-        let articleId = this.$route.params.myArticleId;
-        // 请求
-        this.$http.get(`/article/${articleId}`).then((res) =>{
-            console.log(res, 1111);
+        // 请求用户信息
+        let that = this;
+        let userID = '';
+        that.$http.get('/user').then((res) =>{
+            that.userInfo = res.data
+            console.log(res.data, 4);
+            userID = res.data.UserID;
+            that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
+            that.$http.get(`/user/${userID}`).then((res) =>{
+                that.userInfo = res.data.Result;
+                that.personArticle = res.data.Result.ArticleMaintains;
+                console.log(res, 5);
+            }).catch(e=>e)
         }).catch(e=>e)
-    },  
+    },
 };
 </script>
 
@@ -200,13 +214,26 @@ export default {
             right: 40px;
         }
 
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
+        }
+      
         .personInfo {
             width: calc(100% - 590px);
-            height: 900px;
+            min-height: 900px;
             background: #fff;
             border: 2px solid #ccc;
             position: absolute;
-            top: 40px;
+            top: 20px;
             left: 55px;
             padding: 40px 50px 10px 50px;
 
@@ -248,7 +275,11 @@ export default {
                                 left: 4px;
                                 width: 25px;
                                 height: 25px;
+                                margin-right: 5px;
                             }
+                        }
+                        .user-belike {
+                            margin-left: 220px;
                         }
 
                         .user-collection {
@@ -272,6 +303,9 @@ export default {
                         &:hover {
                             background: #666;
                         }
+                    }
+                    .addDay {
+                        
                     }
                 }
             }
@@ -402,7 +436,7 @@ export default {
     .bottom {
         width: 100%;
         position: absolute;
-        top: 1050px;
+        // top: 1050px;
         left: 0;
     }
     
