@@ -3,33 +3,33 @@
         <div class="center-box">
             <!-- 阅读文章 -->
             <div class="read-page">
-                <div class="article-content" v-for="(item, index) in article" :key="index">
+                <div class="article-content">
                     <!-- 文章标题 -->
-                    <div class="article-title">{{item.title}}</div>
+                    <div class="article-title">{{article.Title}}</div>
                     <!-- 文章tip -->
                     <div class="article-tip">
-                        <span>{{item.click}}点击</span>
-                        <span>作者：{{item.author}}</span>
-                        <span>发布时间：{{item.releaseTime}}</span>
+                        <span>{{article.Hits}}点击</span>
+                        <span>作者：{{article.author}}</span>
+                        <span>发布时间：{{article.releaseTime}}</span>
                         <div class="collection">
-                            {{item.collection}}人收藏
+                            {{article.collection}}人收藏
                             <img src="../assets/img/star2.png" alt="">
                         </div>
                     </div>
                     <!-- 简介 -->
                     <div class="introduction">
                         <div class="introduction-title">1.简介</div>
-                        <div class="introduction-text">{{item.introduction}}</div>
+                        <div class="introduction-text">{{article.introduction}}</div>
                     </div>
                     <!-- 原理 -->
                     <div class="principle">
                         <div class="principle-title">2.原理</div>
-                        <div class="principle-text">{{item.principle}}</div>
+                        <div class="principle-text">{{article.principle}}</div>
                     </div>
 
                     <!-- 点赞 -->
                     <div class="like">
-                        <div class="likeText">{{item.like}}</div>
+                        <div class="likeText">{{article.like}}</div>
                         <img src="../assets/img/like.png" alt="">
                     </div>
                     <!-- 回复 -->
@@ -78,19 +78,18 @@ export default {
     },
     data() {
         return {
-            article: [
-                {
-                    title: 'Go语言原理',
-                    click: '110',
-                    author: 'eanson023',
-                    releaseTime: '2020-12-18',
-                    collection: '2',
-                    introduction: '提供可插播的Go微服务客户端注册到Eureka中心。点击：GitHub地址，欢迎各位多多start！（已通过测试验证，用于正式生产部署）',
-                    principle: 'goeureka主要是通过REST请求来与server进行通信。其中Java版本的核心实现请参看：com.netflix.discovery.DiscoveryClient实现过程',
-                    like: 'xx,xxx,xxx,xxx 5人觉得很赞',
-                    reply: '3',
-                }
-            ],
+            article: {},
+                // {
+                //     title: 'Go语言原理',
+                //     click: '110',
+                //     author: 'eanson023',
+                //     releaseTime: '2020-12-18',
+                //     collection: '2',
+                //     introduction: '提供可插播的Go微服务客户端注册到Eureka中心。点击：GitHub地址，欢迎各位多多start！（已通过测试验证，用于正式生产部署）',
+                //     principle: 'goeureka主要是通过REST请求来与server进行通信。其中Java版本的核心实现请参看：com.netflix.discovery.DiscoveryClient实现过程',
+                //     like: 'xx,xxx,xxx,xxx 5人觉得很赞',
+                //     reply: '3',
+                // }
             replyMsg: [
                 {
                     pic: require('../assets/img/user2.png'),
@@ -112,6 +111,11 @@ export default {
                 },
             ],
         }
+    },
+     created() {
+        let articleDetail = this.$route.params.articleDetail;
+        this.article = articleDetail;
+        console.log(articleDetail, 31);
     },
 };
 </script>

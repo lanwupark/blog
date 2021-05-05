@@ -187,7 +187,7 @@ export default {
     /deep/ .upload-pic{
         width: 400px;
         height: 200px;
-        margin: 100px 200px;
+        margin: 100px 480px;
     }
     
 

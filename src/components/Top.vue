@@ -3,7 +3,7 @@
         <img class="logo" src="@/assets/img/logo.png" alt="">
         <span class="title">Blog</span>
         <el-input placeholder="文章搜索" v-model="pageSearch" class="search" clearable>
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click.native="searchArticle"></el-button>
         </el-input>
         <div class="login">
             <img  class="login-logo" src="@/assets/img/user.jpg" alt="">
@@ -29,8 +29,8 @@
     export default {
         data() {
             return {
-                // pageSearch:'',
-                // client_id,
+                pageSearch:'',
+                articleList: [],
                 // authorize_uri,
                 // redirect_uri,
             }
@@ -39,6 +39,21 @@
             // debugger;
             // link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`;
             // this.$refs.login
+        },
+        methods: {
+            // 搜索文章
+            searchArticle() {
+                // 请求
+                let that = this;
+                that.$http.get(`/article/query`).then((res) =>{
+                    that.articleList = res.data.ResultList;
+                    if(this.$route.path !== '/articleList') {
+                            that.$router.push({name: 'articleList', params: {
+                            articleList: that.articleList
+                        }})
+                    }
+                }).catch(e=>e)
+            },
         },
     }
 </script>

@@ -33,7 +33,7 @@
 
 <style lang="scss" scoped>
 .release-notes {
-    margin-top: 40px;
+    margin-top: -12px;
     padding: 20px;
     width: 320px;
     height: 350px;

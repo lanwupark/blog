@@ -1,21 +1,30 @@
 <template>
-    <div class="feedBack-box">
+    <!--  -->
+    <div class="main-box">
         <div class="center-box">
-            <!-- 文章查询列表 -->
-            <div class="feedBack-page">
-               <p class="feedBack-title">请阐述你想反映的问题或建议，我们将看到反馈后第一时间回复您</p>
-               <div class="question-title">问题</div>
-               <textarea class="question-desc" v-model="请输入您的问题"></textarea>
-               <div class="contact-info">
-                    <el-input placeholder="请输入您的联系方式" v-model="contactInfo" class="contact-detail" clearable>
-                        <el-select v-model="contactOption" slot="prepend" placeholder="请选择" class="contact-option">
-                            <el-option label="联系电话" value="1"></el-option>
-                            <el-option label="微信" value="2"></el-option>
-                            <el-option label="QQ" value="3"></el-option>
-                        </el-select>
-                    </el-input>
+            <div class="main-page">
+                <div class="page-title">文章列表</div>
+                <div class="msg-item" v-for="(item, index) in hotMsg" :key="index" @click="articleDetail(item.ArticleID)">
+                    <!-- 标题、信息数量 -->
+                    <div class="item-top">
+                        <div class="msg-title">{{item.Title}}</div>
+                        <div class="comment">
+                            <img src="../assets/img/msg2.png" alt="">
+                            {{item.CommentNumber}}
+                        </div>
+                    </div>
+                    <!-- 网站、tip、时间、回复人 -->
+                    <div class="item-bottom">
+                        <div class="msg-ldetail">
+                            <span v-for="(classItem, index) in item.Categories" :key="index">{{classItem}}</span>
+                        </div>
+                        <div class="msg-rdetail">
+                            <span>{{item.LastEditDateString}}</span>
+                            <span>浏览量:</span>
+                            <span>{{item.Hits}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="feedBack-submit">提交</div>
             </div>
             <!-- 头侧用户和好友列表 -->
             <div class="right">
@@ -23,13 +32,13 @@
                 <Friends></Friends>
             </div>
         </div>
-        <!-- 底部公共组件 -->
+       <!-- 底部公共组件 -->
         <div class="bottom">
             <Bottom></Bottom>
         </div>
     </div>
 </template>
-<script type="text/javascript" src=""></script>
+
 <script>
 import Person from "@/components/Person.vue";
 import Friends from "@/components/Friends.vue";
@@ -41,20 +50,84 @@ export default {
         Bottom,
     },
     data() {
-        return {
-            contactInfo: '',
-            contactOption: '',
-            feedBack: [
-               
-            ],
-            
+      return {
+        activeName: 'first',
+        hotMsg: [
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+            // {
+            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
+            //     website: '训练营',
+            //     tip: '考研',
+            //     time: '两天前',
+            //     comment: 20,
+            //     lastReply: 'canson'
+            // },
+        ],
+        articleDetailInfo: {},
+      };
+    },
+    methods: {
+        articleDetail(param) {
+            console.log(param);
+            // 请求文章详情
+            let that = this;
+            that.$http.get(`/article/${param}`).then((res) =>{
+                console.log(res, 1111);
+                that.articleDetailInfo = res.data.Result;
+                that.$router.push({name: 'read', params: {
+                            articleDetail: that.articleDetailInfo
+                        }})
+            }).catch(e=>e)
         }
+    },
+    created() {
+        let articleList = this.$route.params.articleList;
+        this.hotMsg = articleList;
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.feedBack-box{
+.main-box{
     position: relative;
     background:#eee;
     .center-box {
@@ -66,6 +139,7 @@ export default {
             right: 40px;
         }
     }
+
     .bottom {
         width: 100%;
         position: absolute;
@@ -73,59 +147,72 @@ export default {
         left: 0;
     }
 }
-.feedBack-page {
+
+.main-page {
     width: calc(100% - 490px);
+    height: 724px;
     background: #fff;
     border: 2px solid #ccc;
-    height: 724px;
     position: absolute;
     top: 40px;
     left: 55px;
 
-    .feedBack-title {
-        margin: 50px 0 0 300px;
+    .main-nav {
+        padding: 18px;
+    }
+}
+/* 每一条信息 */
+.msg-item {
+    height: 80px;
+    margin-left: 18px;
+    border-bottom: 2px solid rgb(228, 225, 225);
+
+    &:last-child {
+        border: none;
     }
 
-    .question-title {
-        margin: 30px 0 0 300px;
+    &:hover {
+        cursor: pointer;
     }
 
-    .question-desc {
-        resize: none;
-        margin: 14px 0 0 300px;
-        width: 800px;
-        height: 260px;
-        border: 1px solid #888;
-        font-size: 16px;
-        color: #333;
-        padding: 14px;
+    .item-top,
+    .item-bottom {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
     }
-    .contact-info {
-        width: 800px;
-        margin: 60px auto;
 
-        .contact-option {
-            width: 110px;
+    .item-top {
+        .comment {
+            margin-right: 50px;
+        }
+        .comment img{
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 4px;
         }
     }
-    .feedBack-submit {
-        color: #fff;
-        width: 200px;
-        height: 36px;
-        background: #333;
-        line-height: 36px;
-        text-align: center;
-        position: absolute;
-        left: 615px;
-        &:hover {
-            background: #555;
-            cursor: pointer;
+    .item-bottom {
+        margin-right: 800px;
+        .msg-ldetail,
+        .msg-rdetail span {
+            margin-right: 40px;
+        }
+        .msg-ldetail span {
+            margin-right: 40px;
         }
     }
 }
 
-    
 
 
 
+/deep/ .el-tabs__item {
+    padding: 0 40px;
+}
+
+/deep/ .el-tabs__header {
+    margin: 0 20px 15px;
+}
 </style>

@@ -2,11 +2,13 @@
     <div class="write-box">
         <div class="center-box">
             <!-- 撰写|编辑文章 -->
+            <div class="backMain" @click="goback">返回首页>></div>
+            <span class="backMain myArticle" @click="myArticle">我的文章>></span>
             <div class="write-page">
                 <!-- 标题 -->
                 <div class="write-title">
                     <span>标题</span>
-                    <input type="text" placeholder="单行输入">
+                    <input type="text" placeholder="请输入标题" ref="getTitle">
                 </div>
                 <!-- 类别 -->
                 <div class="write-class">
@@ -86,7 +88,8 @@ export default {
             inputValue: '',
             validateForm: {
                 text: ''
-            }
+            },
+            myArticleId: '',
         };
     },
     props: {
@@ -124,11 +127,6 @@ export default {
             }                       
         );
 
-        this.$http.post('/article').then((res) =>{
-            console.log(res, 1111);
-        }).catch(e=>e)
-
-
         let dc = this.defaultChecks;
         if (dc) {
             for (let i = 0; i < dc.length; i++) {
@@ -142,6 +140,17 @@ export default {
         },
     },
     methods: {
+        // 返回主页
+        goback() {
+            this.$router.push('/oauth/token')
+        },
+        // 我的文章
+        myArticle() {
+            this.myArticleId;
+            this.$router.push({name: 'person', params: {
+                myArticleId: this.myArticleId
+            }})
+        },
         handleCheckAllChange(val) {
             this.checkedItems = val ? classOptions : [];
             this.isIndeterminate = false;
@@ -167,8 +176,19 @@ export default {
                 this.$refs.saveTagInput.$refs.input.focus();
             });
         },
+        // 保存按钮提交文章信息
         submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+            // 请求
+            let that = this;
+            that.$http.post('/article', {
+                    Title: that.$refs.getTitle.value,
+                    Categories: that.checkedItems,
+                    Content: that.validateForm.text,
+            }).then((res) =>{
+                that.myArticleId = res.data.Result;
+            }).catch(e=>e)
+
+            that.$refs[formName].validate((valid) => {
             if (valid) {
                 alert('submit!');
             } else {
@@ -177,8 +197,11 @@ export default {
             }
             });
         },
+        // 取消按钮置空
         resetForm(formName) {
             this.$refs[formName].resetFields();
+            this.$refs.getTitle.value = '';
+            this.checkedItems = [];
         }
     }
 };
@@ -196,13 +219,31 @@ export default {
             position: absolute;
             right: 40px;
         }
+
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
+        }
+        .myArticle {
+            position: relative;
+            left: 160px;
+            top: -20px;
+        }
         .write-page {
             width: calc(100% - 510px);
             background: #fff;
             border: 2px solid #ccc;
             height: 900px;
             position: absolute;
-            top: 40px;
+            top: 26px;
             left: 55px;
 
             .write-title {

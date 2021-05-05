@@ -176,7 +176,14 @@ export default {
       handleClick(tab, event) {
         console.log(tab, event);
       }
-    }
+    },
+    created() {
+        let articleId = this.$route.params.myArticleId;
+        // 请求
+        this.$http.get(`/article/${articleId}`).then((res) =>{
+            console.log(res, 1111);
+        }).catch(e=>e)
+    },  
 };
 </script>
 

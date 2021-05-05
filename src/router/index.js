@@ -2,7 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // import App from "../App.vue"
-
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +19,7 @@ const routes = [
     component:()=>import ("@/views/Main.vue")
   },
   {
+    name: 'read',
     path: "/read", // 阅读博客
     component:()=>import ("@/views/ReadArticle.vue")
   },
@@ -23,6 +28,7 @@ const routes = [
     component:()=>import ("@/views/WriteArticle.vue")
   },
   {
+    name: 'person',
     path: "/person", // 个人信息
     component:()=>import ("@/views/Person.vue")
   },
@@ -39,7 +45,8 @@ const routes = [
     component:()=>import ("@/views/FeedBack.vue")
   },
   {
-    path: "/album", // 文章查询列表
+    name: 'articleList',
+    path: "/articleList", // 文章查询列表
     component:()=>import ("@/views/ArticleList.vue")
   },
   {
