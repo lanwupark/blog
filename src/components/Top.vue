@@ -46,6 +46,7 @@
                 // 请求
                 let that = this;
                 that.$http.get(`/article/query`).then((res) =>{
+                    console.log(42, res);
                     that.articleList = res.data.ResultList;
                     if(this.$route.path !== '/articleList') {
                             that.$router.push({name: 'articleList', params: {

@@ -110,7 +110,7 @@ export default {
     border: 2px solid #ccc;
     height: 724px;
     position: absolute;
-    top: 40px;
+    top: 20px;
     left: 55px;
 
     .feedBack-title {

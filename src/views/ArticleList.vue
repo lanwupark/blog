@@ -2,16 +2,19 @@
     <!--  -->
     <div class="main-box">
         <div class="center-box">
+            <div class="backMain" @click="goback">返回首页>></div>
+            <span class="backMain myArticle" @click="myArticle">我的文章>></span>
             <div class="main-page">
                 <div class="page-title">文章列表</div>
-                <div class="msg-item" v-for="(item, index) in hotMsg" :key="index" @click="articleDetail(item.ArticleID)">
+                <div class="msg-item" v-for="(item, index) in hotMsg" :key="index">
                     <!-- 标题、信息数量 -->
                     <div class="item-top">
-                        <div class="msg-title">{{item.Title}}</div>
+                        <div class="msg-title" @click="articleDetail(item.ArticleID)">{{item.Title}}</div>
                         <div class="comment">
                             <img src="../assets/img/msg2.png" alt="">
-                            {{item.CommentNumber}}
+                            <span>{{item.CommentNumber}}</span>
                         </div>
+                        <el-button class="deleteBtn" type="danger" icon="el-icon-delete" @click="deleteArticle(item.ArticleID)" circle></el-button>
                     </div>
                     <!-- 网站、tip、时间、回复人 -->
                     <div class="item-bottom">
@@ -52,60 +55,22 @@ export default {
     data() {
       return {
         activeName: 'first',
-        hotMsg: [
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     comment: 20,
-            //     lastReply: 'canson'
-            // },
-        ],
+        hotMsg: [],
         articleDetailInfo: {},
       };
     },
     methods: {
+        // 返回主页
+        goback() {
+            this.$router.push('/oauth/token')
+        },
+        // 我的文章
+        myArticle() {
+            this.myArticleId;
+            this.$router.push({name: 'person', params: {
+                myArticleId: this.myArticleId
+            }})
+        },
         articleDetail(param) {
             console.log(param);
             // 请求文章详情
@@ -117,11 +82,20 @@ export default {
                             articleDetail: that.articleDetailInfo
                         }})
             }).catch(e=>e)
-        }
+        },
+        // 删除文章
+        deleteArticle(articleID) {
+            let that = this;
+            that.$http.delete(`/article/comment/${articleID}`).then((res) =>{
+                    console.log(666, res.data);
+                    alert('success')
+                }).catch(e=>e)
+        },
     },
     created() {
         let articleList = this.$route.params.articleList;
         this.hotMsg = articleList;
+        console.log(1421, this.hotMsg);
     },
 };
 </script>
@@ -131,48 +105,62 @@ export default {
     position: relative;
     background:#eee;
     .center-box {
-        height: 1000px;
+        min-height: 3200px;
         position: relative;
 
         .right {
             position: absolute;
             right: 40px;
         }
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
+        }
+        .myArticle {
+            position: relative;
+            left: 160px;
+            top: -20px;
+        }
+        .main-page {
+            width: calc(100% - 490px);
+            min-height: 724px;
+            background: #fff;
+            border: 2px solid #ccc;
+            position: absolute;
+            top: 40px;
+            left: 55px;
+
+            .main-nav {
+                padding: 18px;
+            }
+        }
     }
 
     .bottom {
         width: 100%;
         position: absolute;
-        top: 820px;
+        top: 3200px;
         left: 0;
     }
 }
 
-.main-page {
-    width: calc(100% - 490px);
-    height: 724px;
-    background: #fff;
-    border: 2px solid #ccc;
-    position: absolute;
-    top: 40px;
-    left: 55px;
 
-    .main-nav {
-        padding: 18px;
-    }
-}
 /* 每一条信息 */
 .msg-item {
-    height: 80px;
+    height: 100px;
     margin-left: 18px;
     border-bottom: 2px solid rgb(228, 225, 225);
 
     &:last-child {
         border: none;
-    }
-
-    &:hover {
-        cursor: pointer;
     }
 
     .item-top,
@@ -183,14 +171,26 @@ export default {
     }
 
     .item-top {
-        .comment {
-            margin-right: 50px;
+        .msg-title:hover {
+            cursor: pointer;
         }
-        .comment img{
-            width: 20px;
-            height: 20px;
+        .comment {
+            margin-right: 60px;
             position: relative;
-            top: 4px;
+            top: -5px;
+
+            img {
+                width: 42px;
+                height: 42px;
+                position: relative;
+                top: 4px;
+            }
+
+            span {
+                position: relative;
+                top: -12px;
+                left: 10px;
+            }
         }
     }
     .item-bottom {
@@ -205,14 +205,18 @@ export default {
     }
 }
 
-
-
-
 /deep/ .el-tabs__item {
     padding: 0 40px;
 }
 
 /deep/ .el-tabs__header {
     margin: 0 20px 15px;
+}
+
+/deep/ .deleteBtn {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 1410px;
 }
 </style>

@@ -10,15 +10,15 @@
                     <div class="article-title">{{article.Title}}</div>
                     <!-- 文章tip -->
                     <div class="article-tip">
-                        <span>点击：{{article.Hits}}</span>
+                        <span>浏览量：{{article.Hits}}</span>
                         <span>作者：{{article.UserLogin}}</span>
                         <span>发布时间：{{article.CreateAt}}</span>
                         <div class="collection">
-                            {{article.Favorities.length}}人收藏
-                            <img src="../assets/img/star2.png" alt="">
+                            {{collectNum}}人收藏
+                            <img :src="flag1 === true ? require('../assets/img/star2.png') : require('../assets/img/star3.png')" alt="" @click="collect">
                         </div>
                     </div>
-                    <!-- 简介 -->
+                    <!-- 简介 -->   
                     <div class="introduction">
                         <div class="introduction-title">1.简介</div>
                         <div class="introduction-text">{{article.Content.substring(0,30)}}...</div>
@@ -31,27 +31,41 @@
 
                     <!-- 点赞 -->
                     <div class="like">
-                        <div class="likeText">{{article.Favorities.length}}人点赞</div>
-                        <img src="../assets/img/like.png" alt="">
+                        <div class="likeText">{{likeNum}}人点赞</div>
+                        <img :src="flag2 === true ? require('../assets/img/like.png') : require('../assets/img/like2.png')" alt="" @click="like">
                     </div>
                     <!-- 回复 -->
                     <div class="replyBox">
-                        <span>{{replyMsg.length}}回复</span>
+                        <span>{{replyMsg.length}} 条评论</span>
                         <div class="reply" v-for="(item, index) in replyMsg" :key="index">
-                            <img :src="item.pic" alt="">
+                            <img :src="userHeads" alt="">
                             <div class="userInfo">
-                                <span class="userName">{{item.name}}</span>
-                                <span class="replyTime">{{item.time}}</span>
-                                <div class="repltContent">{{item.content}}</div>
+                                <span class="userName">{{item.UserID}}</span>
+                                <span class="replyTime">{{item.CreateAt}}</span>
+                                <el-button class="deleteBtn" type="danger" icon="el-icon-delete" @click="deleteReply(item.CommentID)" circle></el-button>
+                                <div class="repltContent">{{item.Content}}</div>
+
+                                <!-- 二级回复 -->
+                                <div class="reback" v-for="(reply, index2) in item.Replies" :key="index2">
+                                    <div class="rebackTitle">回复：</div>
+                                    <img :src="userHeads" alt="">
+                                    <div class="userInfo">
+                                        <span class="userName">{{reply.UserID}}</span>
+                                        <span class="replyTime">{{reply.CreateAt}}</span>
+                                        <el-button class="deleteBtn" type="danger" icon="el-icon-delete" @click="deleteReply(reply.CommentID)" circle></el-button>
+                                        <div class="repltContent">{{reply.Content}}</div>
+                                    </div>
+                                </div>
+                                
                             </div>
+                           
                         </div>
                     </div>
-                    
                     <!-- 评论 -->
                     <div class="addReply">
                         <span>增加一条新回复</span>
-                        <textarea class="replyBox"/>
-                        <div class="submit">提交</div>
+                        <textarea class="replyBox" ref="replyContent"/>
+                        <div class="submit" @click="submit">提交</div>
                     </div>
                 </div>
             </div>
@@ -80,38 +94,19 @@ export default {
     },
     data() {
         return {
+            // 头像
+            userHeads: '',
             article: {},
-                // {
-                //     title: 'Go语言原理',
-                //     click: '110',
-                //     author: 'eanson023',
-                //     releaseTime: '2020-12-18',
-                //     collection: '2',
-                //     introduction: '提供可插播的Go微服务客户端注册到Eureka中心。点击：GitHub地址，欢迎各位多多start！（已通过测试验证，用于正式生产部署）',
-                //     principle: 'goeureka主要是通过REST请求来与server进行通信。其中Java版本的核心实现请参看：com.netflix.discovery.DiscoveryClient实现过程',
-                //     like: 'xx,xxx,xxx,xxx 5人觉得很赞',
-                //     reply: '3',
-                // }
-            replyMsg: [
-                {
-                    pic: require('../assets/img/user2.png'),
-                    name: 'pink',
-                    time: '1小时前',
-                    content: 'goeureka主要是通过REST请求来与server进行通信。',
-                },
-                {
-                    pic: require('../assets/img/user2.png'),
-                    name: 'lily',
-                    time: '2小时前',
-                    content: 'goeureka主要是通过REST请求来与server进行通信。',
-                },
-                {
-                    pic: require('../assets/img/user2.png'),
-                    name: 'JACK',
-                    time: '2天前',
-                    content: 'goeureka主要是通过REST请求来与server进行通信。',
-                },
-            ],
+            articleId: {},
+            likeNum: 1,
+            collectNum: 1,
+            flag1: true,
+            flag2: true,
+            // 一级评论
+            replyMsg: [],
+            // 二级评论（回复）
+            rebackMsg: [],
+            UserID: '',
         }
     },
     methods: {
@@ -126,11 +121,91 @@ export default {
                 myArticleId: this.myArticleId
             }})
         },
+        // 收藏
+        collect() {
+            let that = this;
+            that.collectNum = that.article.Favorities.length + 1;
+            that.flag1 = !that.flag1;
+            // 收藏
+            if(!that.flag1){
+                that.$http.post(`/article/like/${that.articleId}`, {
+                    LikeType: 'F'
+                }).then((res) =>{
+                    console.log(21, res.data); 
+                }).catch(e=>e)
+            }
+            // 取消
+            if(that.flag1){
+                that.collectNum = that.collectNum -1;
+                 that.$http.delete(`/article/like/${that.articleId}/F`).then((res) =>{
+                    console.log(22, res.data); 
+                }).catch(e=>e)
+            }
+            
+        },
+        // 点赞
+        like() {
+            let that = this;
+            that.likeNum = that.article.Stars.length + 1;
+            that.flag2 = !that.flag2;
+            // 点赞
+            if(!that.flag2){
+                that.$http.post(`/article/like/${that.articleId}`, {
+                    LikeType: 'S'
+                }).then((res) =>{
+                    console.log(31, res.data); 
+                }).catch(e=>e)
+            }
+            // 取消
+            if(that.flag2){
+                that.likeNum = that.likeNum -1;
+                that.$http.delete(`/article/like/${that.articleId}/S`).then((res) =>{
+                    console.log(32, res.data); 
+                }).catch(e=>e)
+            }
+        },
+        // 删除评论
+        deleteReply(commentID) {
+            let that = this;
+            that.$http.delete(`/article/comment/${commentID}`).then((res) =>{
+                    console.log(666, res.data);
+                    alert('success')
+                }).catch(e=>e)
+        },
+        // 提交评论
+        submit() {
+            let that = this;
+            that.$http.post(`/article/comment/${that.articleId}`, {
+                  ReplyTo: that.articleId,
+                  Content: that.$refs.replyContent.value
+              }).then((res) =>{
+                  console.log(51, res.data);
+                  alert('success');
+                  that.$set(that.replyMsg, that.replyMsg.length, {
+                      Content: that.$refs.replyContent.value,
+                      UserID: that.UserID,
+                      CreateAt: '刚刚'
+                  });
+                  that.$refs.replyContent.value = '';
+              }).catch(e=>e)
+        }
     },
     created() {
+        // 用户
         let articleDetail = this.$route.params.articleDetail;
         this.article = articleDetail;
-        console.log(articleDetail, 31);
+        this.replyMsg = articleDetail.Comments;
+        this.articleId = articleDetail.ArticleID;
+        this.likeNum = this.article.Stars.length;
+        this.collectNum = this.article.Favorities.length;
+        console.log(articleDetail, 142);
+        let userID = '';
+        this.replyMsg.forEach((item)=> {
+            // this.rebackMsg = item.Replies;
+            userID = item.UserID;
+            this.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
+        });
+        this.UserID = userID;
     },
 };
 </script>
@@ -140,7 +215,7 @@ export default {
     position: relative;
     background:#eee;
     .center-box {
-        height: 1200px;
+        min-height: 3000px;
         position: relative;
 
         .right {
@@ -168,7 +243,7 @@ export default {
     .bottom {
         width: 100%;
         position: absolute;
-        top: 1180px;
+        top: 3000px;
         left: 0;
     }
 }
@@ -176,7 +251,7 @@ export default {
     width: calc(100% - 490px);
     background: #fff;
     border: 2px solid #ccc;
-    height: 1080px;
+    min-height: 2700px;
     position: absolute;
     top: 40px;
     left: 55px;
@@ -200,6 +275,10 @@ export default {
                 position: relative;
                 top: 8px;
                 left: 6px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }
@@ -236,15 +315,26 @@ export default {
             height: 46px;
             position: relative;
             top: 12px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
     .replyBox {
         width: calc(100% - 120px);
-        height: 260px;
+        min-height: 200px;
         margin: 0 60px;
         padding-top: 6px;
         border: 1px solid #888;
+
+        .rebackTitle {
+            margin-bottom: 10px;
+        }
+        .reback {
+            margin: 20px 20px 20px 40px;
+        }
 
         span {
             margin-left: 20px;
@@ -268,6 +358,7 @@ export default {
         position: relative;
 
         .replyBox {
+            width: calc(100% - 148px);
             height: 200px;
             resize: none;
             font-size: 16px;
@@ -288,7 +379,7 @@ export default {
             text-align: center;
             position: absolute;
             right: 58px;
-            top: 238px;
+            top: 258px;
 
             &:hover {
                 background: #555;
@@ -296,5 +387,11 @@ export default {
             }
         }
     }
+}
+/deep/ .deleteBtn {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 1450px;
 }
 </style>
