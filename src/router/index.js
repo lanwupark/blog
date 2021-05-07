@@ -41,6 +41,10 @@ const routes = [
     component:()=>import ("@/views/Album.vue")
   },
   {
+    path: "/myAlbum", // 相册
+    component:()=>import ("@/views/myAlbum.vue")
+  },
+  {
     path: "/feedBack", // 反馈
     component:()=>import ("@/views/FeedBack.vue")
   },

@@ -2,6 +2,8 @@
     <div class="album-box">
         <div class="center-box">
             <!-- 相册 -->
+            <div class="backMain" @click="goback">返回首页>></div>
+            <span class="backMain myAlbum" @click="myAlbum">我的相册>></span>
             <div class="album-page">
                 <div class="album-content">
                     <!-- <span class="album-edit">编辑</span>s -->
@@ -12,7 +14,7 @@
                         <span>地点：<input type="text" ref="getAddress"></span>
                         <!-- <span>发布时间：{{item.releaseTime}}</span> -->
                     </div>
-                    <textarea class="album-desc" ref="getDesc"></textarea>
+                    <textarea class="album-desc" ref="getDesc" placeholder="请输入相册描述"></textarea>
                     <!-- <div class="image-items">
                         <div class="image-item" v-for="(item, index) in personImage" :key="index">
                             <img :src="item.src" alt="">
@@ -26,13 +28,17 @@
                     <el-upload
                         class="upload-pic"
                         drag
-                        action="http://localhost:8080/album"
+                        action
                         multiple
-                        :on-change="uploadPic">
+                        show-file-list = 'true'
+                        :http-request="selectPicUpload"
+                        :on-change="uploadPic"
+                        ref="upload">
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
                     <el-button type="primary" @click="onSubmit" class="createBtn">立即创建</el-button>
+                    <el-button type="primary" @click="cancleBtn" class="cancleBtn">取消</el-button>
                 </div>
             </div>
             <!-- 头侧用户和好友列表 -->
@@ -87,30 +93,65 @@ export default {
             ],
             srcName: '',
             albumId: '',
+            fileName: [],
         }
     },
     methods: {
+        // 返回主页
+        goback() {
+            this.$router.push('/oauth/token')
+        },
+        myAlbum() {
+            this.$router.push('/myAlbum')
+        },
+        // 我的相册
         uploadPic(file, fileList) {
             console.log(file, 100);
             this.srcName = file.name
         },
-        onSubmit() {
+        // 上传图片
+        selectPicUpload (obj) {
+            let fd = new FormData();
+            fd.append("file", obj.file);
             // 请求
             let that = this;
             // 图片
-            that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`).then((res) =>{
+            that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`,fd).then((res) =>{
                 console.log(333, res.data); 
-                // 相册
-                // that.$http.get('/common/album',{
-                //     AlbumID: albumId,
-                //     Title: that.$refs.getTitle.value,
-                //     Description: that.$refs.getDesc.value,
-                //     Location: that.$refs.getAddress.value,
-                // }).then((res) =>{
-                //     console.log(444, res.data);
-                // }).catch(e=>e)
+                that.fileName.push(res.data.Result.FileName);
+                console.log(that.fileName, 88);
+                that.onSubmit();
             }).catch(e=>e)
-        } 
+        },
+        // 创建相册
+        onSubmit() {
+            // 请求
+            let that = this;
+            // 相册
+            // console.log(55, that.albumId, that.$refs.getTitle.value, that.$refs.getAddress.value, that.fileName);
+            that.$http.post('/album',{
+                AlbumID: that.albumId,
+                Title: that.$refs.getTitle.value,
+                Description: that.$refs.getDesc.value,
+                Location: that.$refs.getAddress.value,
+                PhotoList: that.fileName,
+            }).then((res) =>{
+                console.log(444, res.data);
+            // }).catch(e=>e)
+            }).catch(e=>e)
+        },
+        // 取消创建
+        cancleBtn() {
+            // 请求
+            let that = this;
+            that.$http.delete(`/album/cancel/${that.albumId}`).then((res) =>{
+                that.$refs.getTitle.value = '';
+                that.$refs.getDesc.value = '';
+                that.$refs.getAddress.value = '';
+                that.$refs.upload.clearFiles();
+            }).catch(e=>e)
+        },
+
     },
     created() {
         // 请求
@@ -134,6 +175,24 @@ export default {
         .right {
             position: absolute;
             right: 40px;
+        }
+
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
+        }
+        .myAlbum {
+            position: relative;
+            left: 160px;
+            top: -20px;
         }
     }
     .bottom {
@@ -236,13 +295,18 @@ export default {
     /deep/ .upload-pic{
         width: 400px;
         height: 200px;
-        margin: 100px 480px;
+        margin: 50px 480px;
     }
 
     /deep/ .createBtn {
         position: relative;
-        top: -160px;
-        left: 900px;
+        left: 500px;
+    }
+
+    /deep/ .cancleBtn {
+        width: 98px;
+        position: relative;
+        left: 600px;
     }
     
 

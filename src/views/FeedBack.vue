@@ -2,10 +2,11 @@
     <div class="feedBack-box">
         <div class="center-box">
             <!-- 反馈 -->
+            <div class="backMain" @click="goback">返回首页>></div>
             <div class="feedBack-page">
                <p class="feedBack-title">请阐述你想反映的问题或建议，我们将看到反馈后第一时间回复您</p>
                <div class="question-title">问题</div>
-               <textarea class="question-desc" v-model="请输入您的问题"></textarea>
+               <textarea class="question-desc" v-model="feedbackDesc"></textarea>
                <div class="contact-info">
                     <el-input placeholder="请输入您的联系方式" v-model="contactInfo" class="contact-detail" clearable>
                         <el-select v-model="contactOption" slot="prepend" placeholder="请选择" class="contact-option">
@@ -15,7 +16,7 @@
                         </el-select>
                     </el-input>
                 </div>
-                <div class="feedBack-submit">提交</div>
+                <div class="feedBack-submit" @click="submit">提交</div>
             </div>
             <!-- 头侧用户和好友列表 -->
             <div class="right">
@@ -47,9 +48,26 @@ export default {
             feedBack: [
                
             ],
+            feedbackDesc: '',
             
         }
     },
+    methods: {
+        // 返回主页
+        goback() {
+            this.$router.push('/oauth/token')
+        },
+        submit() {
+            let that = this;
+            that.$http.post('/feedback', {
+                Description: that.feedbackDesc,
+                Contact: that.contactInfo,
+            }).then((res) =>{
+                console.log(res, 6);
+            }).catch(e=>e)
+        }
+    }
+    
 };
 </script>
 
@@ -64,6 +82,19 @@ export default {
         .right {
             position: absolute;
             right: 40px;
+        }
+
+        .backMain {
+            position: relative;
+            left: 60px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+
+            &:hover {
+                color: #444;
+            }
         }
     }
     .bottom {
