@@ -74,61 +74,43 @@
                   </div>
                 </div>
                 <div class="personInfo-article">
-                  <div class="article-nav">
-                    <span class="article-author"
-                      >{{ userInfo.UserLogin }}的文章</span
-                    >
-                    <router-link to="/write" class="article-write"
-                      >撰写文章</router-link
-                    >
-                  </div>
-                  <div class="article-items">
-                    <div
-                      class="msg-item"
-                      v-for="(item, index) in personArticle"
-                      :key="index"
-                    >
-                      <!-- 标题、评论 收藏 点赞-->
-                      <div class="item-top">
-                        <div
-                          class="msg-title"
-                          @click="articleDetail(item.ArticleID)"
-                          :id="item.ArticleID"
-                        >
-                          {{ item.Title }}
-                        </div>
-                        <div class="msg-icon">
-                          <div class="comment">
-                            <img src="../assets/img/msg2.png" alt="" />
-                            <span>{{ item.CommentNumber }}</span>
-                          </div>
-                          <div class="collection">
-                            <img src="../assets/img/star2.png" alt="" />
-                            <span>{{ item.StarNumber }}</span>
-                          </div>
-                          <div class="like">
-                            <img src="../assets/img/like.png" alt="" />
-                            <span>{{ item.FavoriteNumber }}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- 网站、tip、时间、回复人 -->
-                      <div class="item-bottom">
-                        <div class="msg-ldetail">
-                          <span
-                            v-for="(classItem, index) in item.Categories"
-                            :key="index"
-                            >{{ classItem }}</span
-                          >
-                        </div>
-                        <div class="msg-rdetail">
-                          <span>{{ item.time }}</span>
-                          <span>最后回复于:</span>
-                          <span>{{ item.LastEditDateString }}</span>
-                        </div>
-                      </div>
+                    <div class="article-nav">
+                        <span class="article-author">{{userInfo.UserLogin}}的文章</span>
+                        <router-link to="/write" class="article-write">撰写文章</router-link>
                     </div>
-                  </div>
+                    <div class="article-items">
+                         <div class="msg-item" v-for="(item, index) in personArticle" :key="index">
+                            <!-- 标题、评论 收藏 点赞-->
+                            <div class="item-top">
+                                <div class="msg-title" @click="articleDetail(item.ArticleID)" :id="item.ArticleID">{{item.Title}}</div>
+                                <div class="msg-icon">
+                                    <div class="comment">
+                                        <img src="../assets/img/msg2.png" alt="">
+                                        <span>{{item.CommentNumber}}</span>
+                                    </div>
+                                    <div class="collection">
+                                        <img src="../assets/img/star2.png" alt="">
+                                        <span>{{item.StarNumber}}</span>
+                                    </div>
+                                    <div class="like">
+                                        <img src="../assets/img/like.png" alt="">
+                                        <span>{{item.FavoriteNumber}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 网站、tip、时间、回复人 -->
+                            <div class="item-bottom">
+                                <div class="msg-ldetail">
+                                   <span v-for="(classItem, index) in item.Categories" :key="index">{{classItem}}</span>
+                                </div>
+                                <div class="msg-rdetail">
+                                    <span>{{item.time}}</span>
+                                    <span>最后回复于:</span>
+                                    <span>{{item.LastEditDateString}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="msg-rdetail">
                   <span>{{ item.time }}</span>
@@ -219,64 +201,62 @@ export default {
     },
     data() {
       return {
-        activeName: "first",
+        activeName: 'first',
         // 头像
-        userHeads: "",
+        userHeads: '',
         // 个人信息
         userInfo: {},
         // 文章
         personArticle: [],
         // 相册
         personImage: [
-          {
-            id: "1",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-01-12",
-          },
-          {
-            id: "2",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-02-12",
-          },
-          {
-            id: "3",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-03-12",
-          },
+            {
+                id: '1',
+                src: require("../assets/img/user.jpg"),
+                time: '2021-01-12',
+            },
+            {
+                id: '2',
+                src: require("../assets/img/user.jpg"),
+                time: '2021-02-12',
+            },
+            {
+                id: '3',
+                src: require("../assets/img/user.jpg"),
+                time: '2021-03-12',
+            }
         ],
       };
     },
     methods: {
       // 返回主页
       goback() {
-        this.$router.push("/");
+          this.$router.push('/')
       },
-      handleClick(tab, event) {},
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
       articleDetail(param) {
         // 请求文章详情,
         let that = this;
-        that.$router.push({ path: `/read/${param}` });
-      },
+        that.$router.push({path: `/read/${param}`})
+     },
     },
     created() {
-      // 请求用户信息
-      let that = this;
-      let userID = "";
-      that.$http
-        .get("/user")
-        .then((res) => {
-          that.userInfo = res.data;
-          userID = res.data.UserID;
-          that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
-          that.$http
-            .get(`/user/${userID}`)
-            .then((res) => {
-              that.userInfo = res.data.Result;
-              that.personArticle = res.data.Result.ArticleMaintains;
-            })
-            .catch((e) => e);
-        })
-        .catch((e) => e);
+        // 请求用户信息
+        let that = this;
+        let userID = '';
+        that.$http.get('/user').then((res) =>{
+            that.userInfo = res.data
+            console.log(res.data, 4);
+            userID = res.data.UserID;
+            that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
+            that.$http.get(`/user/${userID}`).then((res) =>{
+                that.userInfo = res.data.Result;
+                that.personArticle = res.data.Result.ArticleMaintains;
+                console.log(res, 5);
+            }).catch(e=>e)
+        }).catch(e=>e)
     },
   },
   created() {
@@ -294,6 +274,7 @@ export default {
           .then((res) => {
             that.userInfo = res.data.Result;
             that.personArticle = res.data.Result.ArticleMaintains;
+            console.log(res, 5);
           })
           .catch((e) => e);
       })
@@ -438,24 +419,11 @@ export default {
           }
         }
 
-                    .msg-item {
-                        border-bottom: 1px solid #ccc;
-                        padding-bottom: 4px;
-                        margin-bottom: 20px;
-                        &:last-child {
-                            border: none;
-                            margin-bottom: 0;
-                        }
-                        .item-top {
-                            display: flex;
-                            justify-content: space-between;
-                            img {
-                                width: 30px;
-                                height: 30px;
-                            }
-                            .msg-title:hover {
-                                cursor: pointer;
-                            }
+        .article-items {
+          margin: 30px 20px 0 20px;
+          border: 1px solid #ccc;
+          border-top: none;
+          padding: 40px 40px 10px 40px;
 
           .msg-item {
             border-bottom: 1px solid #ccc;
