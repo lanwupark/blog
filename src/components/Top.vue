@@ -40,10 +40,13 @@
                 let that = this;
                 that.$http.get(`/article/query?content=${that.pageSearch}&page_size=${that.defaultPageSize}`).then((res) =>{
                     that.articleList = res.data.ResultList;
+                    console.log(that.articleList);
                     if(this.$route.path !== '/articleList') {
                             that.$router.push({name: 'articleList', params: {
                             articleList: that.articleList
                         }})
+                    }else{
+                        this.$emit("eventitem",that.articleList)
                     }
                 }).catch(e=>e)
             },
