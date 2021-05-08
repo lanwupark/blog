@@ -1,6 +1,10 @@
 <template>
     <!--  -->
     <div class="main-box">
+        <div id="nav">
+            <!-- 顶部公共组件 -->
+            <Top></Top>
+        </div>
         <div class="center-box">
             <div class="backMain" @click="goback">返回首页>></div>
             <span class="backMain myArticle" @click="myArticle">我的文章>></span>
@@ -43,6 +47,7 @@
 </template>
 
 <script>
+import Top from "@/components/Top.vue";
 import Person from "@/components/Person.vue";
 import Friends from "@/components/Friends.vue";
 import Bottom from "@/components/Bottom.vue";
@@ -51,6 +56,7 @@ export default {
         Person,
         Friends,
         Bottom,
+        Top,
     },
     data() {
       return {

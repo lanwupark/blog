@@ -29,7 +29,7 @@ const routes = [
   },
   {
     name: 'person',
-    path: "/person/:personID", // 个人信息
+    path: "/person", // 个人信息
     component:()=>import ("@/views/Person.vue")
   },
   {
@@ -37,12 +37,16 @@ const routes = [
     component:()=>import ("@/views/Collection.vue")
   },
   {
-    path: "/album/:albumID", // 相册
+    path: "/album", // 创建相册
     component:()=>import ("@/views/Album.vue")
   },
   {
     path: "/myAlbum", // 相册
     component:()=>import ("@/views/myAlbum.vue")
+  },
+  {
+    path: "/album/detail/:albumID", // 相册详情
+    component:()=>import ("@/views/AlbumDetail.vue")
   },
   {
     path: "/feedBack", // 反馈

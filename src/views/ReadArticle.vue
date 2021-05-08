@@ -1,5 +1,9 @@
 <template>
     <div class="read-box">
+        <div id="nav">
+            <!-- 顶部公共组件 -->
+            <Top></Top>
+        </div>
         <div class="center-box">
             <!-- 阅读文章 -->
             <div class="backMain" @click="goback">返回首页>></div>
@@ -42,6 +46,7 @@
                             <div class="userInfo">
                                 <span class="userName">{{item.UserID}}</span>
                                 <span class="replyTime">{{item.CreateAt}}</span>
+                                <el-button class="replyBtn" type="primary" icon="el-icon-edit" @click="scroll(item)" circle></el-button>
                                 <el-button class="deleteBtn" type="danger" icon="el-icon-delete" @click="deleteReply(item.CommentID)" circle></el-button>
                                 <div class="repltContent">{{item.Content}}</div>
 
@@ -52,7 +57,7 @@
                                     <div class="userInfo">
                                         <span class="userName">{{reply.UserID}}</span>
                                         <span class="replyTime">{{reply.CreateAt}}</span>
-                                        <el-button class="deleteBtn" type="danger" icon="el-icon-delete" @click="deleteReply(reply.CommentID)" circle></el-button>
+                                        <el-button class="deleteBtnSecond" type="danger" icon="el-icon-delete" @click="deleteReply(reply.CommentID)" circle></el-button>
                                         <div class="repltContent">{{reply.Content}}</div>
                                     </div>
                                 </div>
@@ -63,9 +68,9 @@
                     </div>
                     <!-- 评论 -->
                     <div class="addReply">
-                        <span>增加一条新回复</span>
-                        <textarea class="replyBox" ref="replyContent"/>
-                        <div class="submit" @click="submit">提交</div>
+                        <span>增加一条新回复  {{replyTxt}}</span>
+                        <textarea id="replyBox" class="replyBox" ref="replyContent"/>
+                        <div class="submit" @click="submit()">提交</div>
                     </div>
                 </div>
             </div>
@@ -83,6 +88,7 @@
 </template>
 
 <script>
+import Top from "@/components/Top.vue";
 import Person from "@/components/Person.vue";
 import Friends from "@/components/Friends.vue";
 import Bottom from "@/components/Bottom.vue";
@@ -91,13 +97,14 @@ export default {
         Person,
         Friends,
         Bottom,
+        Top,
     },
     data() {
         return {
             // 头像
             userHeads: '',
             article: {},
-            articleId: {},
+            articleId: '',
             likeNum: 1,
             collectNum: 1,
             flag1: true,
@@ -108,6 +115,8 @@ export default {
             rebackMsg: [],
             UserID: '',
              articleDetailInfo: {},
+             currentReplyItem:undefined,
+             replyTxt:''
         }
     },
     methods: {
@@ -173,11 +182,25 @@ export default {
                     alert('success')
                 }).catch(e=>e)
         },
+        scroll(commentItem){
+            // 页面滚动到评论栏
+            this.replyTxt=`回复: ${commentItem.UserID}`
+            this.currentReplyItem=commentItem;
+            window.location.hash="replyBox";
+        },
         // 提交评论
         submit() {
             let that = this;
+            let txt="刚刚";
+            let replyToID;
+            if(that.currentReplyItem==undefined){
+                replyToID=that.articleId
+            }else{
+                txt=`刚刚     回复于:${that.currentReplyItem.UserID}`;
+                replyToID=that.currentReplyItem.CommentID;
+            }
             that.$http.post(`/article/comment/${that.articleId}`, {
-                  ReplyTo: that.articleId,
+                  ReplyTo: replyToID,
                   Content: that.$refs.replyContent.value
               }).then((res) =>{
                   console.log(51, res.data);
@@ -185,33 +208,39 @@ export default {
                   that.$set(that.replyMsg, that.replyMsg.length, {
                       Content: that.$refs.replyContent.value,
                       UserID: that.UserID,
-                      CreateAt: '刚刚'
+                      CreateAt: txt
                   });
                   that.$refs.replyContent.value = '';
+                  that.currentReplyItem==undefined;
+                  that.replyTxt='';
               }).catch(e=>e)
         }
     },
     created() {
-        this.$http.get(`/article/${this.$route.params.articleID}`).then((res) =>{
+        let that=this;
+        that.$http.get(`/article/${that.$route.params.articleID}`).then((res) =>{
                 console.log(res, 1111);
-                this.articleDetailInfo = res.data.Result;
+                that.articleDetailInfo = res.data.Result;
                 // 用户
-        let articleDetail = this.articleDetailInfo;
-        this.article = articleDetail;
-        this.replyMsg = articleDetail.Comments;
-        this.articleId = articleDetail.ArticleID;
-        this.likeNum = this.article.Stars.length;
-        this.collectNum = this.article.Favorities.length;
+        let articleDetail = that.articleDetailInfo;
+        that.article = articleDetail;
+        that.replyMsg = articleDetail.Comments;
+        that.articleId = articleDetail.ArticleID;
+        that.likeNum = that.article.Stars.length;
+        that.collectNum = that.article.Favorities.length;
         console.log(articleDetail, 142);
             }).catch(e=>e)
         
         let userID = '';
-        this.replyMsg.forEach((item)=> {
+        that.replyMsg.forEach((item)=> {
             // this.rebackMsg = item.Replies;
             userID = item.UserID;
-            this.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
+            that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
         });
-        this.UserID = userID;
+        that.$http.get('/user').then((res) =>{
+                that.UserID = res.data.UserID;
+        }).catch(e=>e)
+        
     },
 };
 </script>
@@ -399,5 +428,18 @@ export default {
     height: 40px;
     position: absolute;
     left: 1450px;
+}
+/deep/ .deleteBtnSecond {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 1462px;
+}
+
+/deep/ .replyBtn {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 1380px;
 }
 </style>

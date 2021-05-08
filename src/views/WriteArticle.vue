@@ -1,5 +1,9 @@
 <template>
     <div class="write-box">
+        <div id="nav">
+            <!-- 顶部公共组件 -->
+            <Top></Top>
+        </div>
         <div class="center-box">
             <!-- 撰写|编辑文章 -->
             <div class="backMain" @click="goback">返回首页>></div>
@@ -68,6 +72,7 @@
 </template>
 
 <script>
+import Top from "@/components/Top.vue";
 import ReleaseNotes from "@/components/ReleaseNotes.vue";
 import Prohibit from "@/components/Prohibit.vue";
 import Bottom from "@/components/Bottom.vue";
@@ -77,6 +82,7 @@ export default {
         ReleaseNotes,
         Prohibit,
         Bottom,
+        Top,
     },
     data() {
         return {

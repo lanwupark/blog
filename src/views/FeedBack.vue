@@ -1,5 +1,9 @@
 <template>
     <div class="feedBack-box">
+        <div id="nav">
+            <!-- 顶部公共组件 -->
+            <Top></Top>
+        </div>
         <div class="center-box">
             <!-- 反馈 -->
             <div class="backMain" @click="goback">返回首页>></div>
@@ -32,6 +36,7 @@
 </template>
 <script type="text/javascript" src=""></script>
 <script>
+import Top from "@/components/Top.vue";
 import Person from "@/components/Person.vue";
 import Friends from "@/components/Friends.vue";
 import Bottom from "@/components/Bottom.vue";
@@ -40,6 +45,7 @@ export default {
         Person,
         Friends,
         Bottom,
+        Top,
     },
     data() {
         return {

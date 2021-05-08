@@ -1,5 +1,9 @@
 <template>
     <div class="album-box">
+        <div id="nav">
+            <!-- 顶部公共组件 -->
+            <Top></Top>
+        </div>
         <div class="center-box">
             <!-- 相册 -->
             <div class="backMain" @click="goback">返回首页>></div>
@@ -28,7 +32,7 @@
                     <el-upload
                         class="upload-pic"
                         drag
-                        action="http://139.198.187.220:8080/"
+                        action
                         multiple
                         show-file-list = 'true'
                         :http-request="selectPicUpload"
@@ -58,11 +62,13 @@
 import Person from "@/components/Person.vue";
 import Friends from "@/components/Friends.vue";
 import Bottom from "@/components/Bottom.vue";
+import Top from "@/components/Top.vue";
 export default {
     components: {
         Person,
         Friends,
         Bottom,
+        Top,
     },
     data() {
         return {
@@ -111,12 +117,12 @@ export default {
         },
         // 上传图片
         selectPicUpload (obj) {
-            let fd = new FormData();
-            fd.append("file", obj.file);
+            // let fd = new FormData();
+            // fd.append("file", obj.file);
             // 请求
             let that = this;
             // 图片
-            that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`,fd).then((res) =>{
+            that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`,obj.file).then((res) =>{
                 console.log(333, res.data); 
                 that.fileName.push(res.data.Result.FileName);
                 console.log(that.fileName, 88);
