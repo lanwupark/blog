@@ -76,7 +76,6 @@ export default {
         let that = this;
         that.$http.get(`/album/detail/${that.$route.params.albumID}`).then((res) =>{
             that.picSrc = res.data.Result.Photos;
-            console.log(311, that.picSrc);
         }).catch(e=>e)
         
     },

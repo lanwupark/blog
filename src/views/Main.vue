@@ -120,7 +120,6 @@ export default {
     that.$http
       .get("/user")
       .then((res) => {
-        console.log(res, 1111);
         that.logined = true;
       })
       .catch((e) => e);

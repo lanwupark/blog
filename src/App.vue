@@ -15,7 +15,7 @@
     </div>
     <!-- 底部公共组件 -->
     <div id="bottom">
-        <Bottom></Bottom>
+        <!-- <Bottom></Bottom> -->
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import Top from "@/components/Top.vue";
 export default {
   components: {
     Top,
-    // Bottom,s
+    // Bottom,
     // Person,
     // Friends,
   },

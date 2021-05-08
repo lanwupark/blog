@@ -74,42 +74,23 @@
                   </div>
                 </div>
               </div>
-                <div class="item-bottom">
-                  <div class="msg-ldetail">
-                    <span
-                      v-for="(classItem, index) in item.Categories"
-                      :key="index"
-                      >{{ classItem }}</span
-                    >
-                  </div>
-                  <div class="msg-rdetail">
-                    <span>{{ item.time }}</span>
-                    <span>最后回复于:</span>
-                    <span>{{ item.LastEditDateString }}</span>
-                  </div>
+              <div class="item-bottom">
+                <div class="msg-ldetail">
+                  <span
+                    v-for="(classItem, index) in item.Categories"
+                    :key="index"
+                    >{{ classItem }}</span
+                  >
                 </div>
-              
+                <div class="msg-rdetail">
+                  <span>{{ item.time }}</span>
+                  <span>最后回复于:</span>
+                  <span>{{ item.LastEditDateString }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <!-- <div class="personInfo-image">
-                    <div class="image-nav">
-                        <span class="image-author">yanrui6666的相册</span>
-                        <router-link to="/album" class="image-add">新建相册</router-link>
-                    </div>
-                    <div class="image-items">
-                        <div class="image-item" v-for="(item, index) in personImage" :key="index">
-                            <img :src="item.src" alt="">
-                            <div class="image-detail">
-                                <span>相册{{item.id}}</span>
-                                <span>{{item.time}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="image-more">
-                        查看更多>>
-                    </div>
-                </div> -->
       </div>
       <!-- 头侧用户和好友列表 -->
       <div class="right">
@@ -170,70 +151,13 @@ export default {
     goback() {
       this.$router.push("/");
     },
-    data() {
-      return {
-        activeName: "first",
-        // 头像
-        userHeads: "",
-        // 个人信息
-        userInfo: {},
-        // 文章
-        personArticle: [],
-        // 相册
-        personImage: [
-          {
-            id: "1",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-01-12",
-          },
-          {
-            id: "2",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-02-12",
-          },
-          {
-            id: "3",
-            src: require("../assets/img/user.jpg"),
-            time: "2021-03-12",
-          },
-        ],
-      };
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
-    methods: {
-      // 返回主页
-      goback() {
-        this.$router.push("/");
-      },
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
-      articleDetail(param) {
-        // 请求文章详情,
-        let that = this;
-        that.$router.push({ path: `/read/${param}` });
-      },
-    },
-    created() {
-      // 请求用户信息
+    articleDetail(param) {
+      // 请求文章详情,
       let that = this;
-      let userID = "";
-      that.$http
-        .get("/user")
-        .then((res) => {
-          that.userInfo = res.data;
-          console.log(res.data, 4);
-          userID = res.data.UserID;
-          that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
-          that.$http
-            .get(`/user/${userID}`)
-            .then((res) => {
-              that.userInfo = res.data.Result;
-              that.personArticle = res.data.Result.ArticleMaintains;
-              console.log(res, 5);
-            })
-            .catch((e) => e);
-        })
-        .catch((e) => e);
+      that.$router.push({ path: `/read/${param}` });
     },
   },
   created() {
@@ -251,7 +175,6 @@ export default {
           .then((res) => {
             that.userInfo = res.data.Result;
             that.personArticle = res.data.Result.ArticleMaintains;
-            console.log(res, 5);
           })
           .catch((e) => e);
       })
