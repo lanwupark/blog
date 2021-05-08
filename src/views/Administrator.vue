@@ -200,6 +200,7 @@
                       size="small"
                       type="text"
                       @click="photoRemove(scope.$index, scope.row)"
+                      :disabled="scope.row.deleteDisabled"
                       >删除</el-button
                     >
                   </template>
@@ -212,7 +213,7 @@
           <el-tab-pane label="评论管理" name="third" class="nav-item">
             <div class="search-box">
               <div class="article-search">
-                <span>ArticleID</span>
+                <span>文章ID</span>
                 <el-input
                   placeholder="请输入内容"
                   v-model="messageForm.article_id"
@@ -222,10 +223,20 @@
                 </el-input>
               </div>
               <div class="user-search">
-                <span>UserID</span>
+                <span>评论ID</span>
                 <el-input
                   placeholder="请输入内容"
-                  v-model="messageForm.page_size"
+                  v-model="messageForm.comment_id"
+                  clearable
+                  class="articleId-input"
+                >
+                </el-input>
+              </div>
+              <div class="user-search">
+                <span>用户名</span>
+                <el-input
+                  placeholder="请输入内容"
+                  v-model="messageForm.user_login"
                   clearable
                   class="articleId-input"
                 >
@@ -247,24 +258,27 @@
                 </el-date-picker>
               </div>
               <el-button class="search-btn" @click="messageClick"
-                >Search</el-button
-              >
+                >Search</el-button>
             </div>
+            <el-button class="search-btn" @click="messageClick"
+                >Search</el-button>
             <div class="content-list">
               <el-table
-                :data="tableData"
+                :data="commentsData"
                 height="400"
                 border
+                @row-click="rowclick"
                 style="width: 100%"
               >
-                <el-table-column prop="articleId" label="ArticleID" width="180">
+                <el-table-column prop="ArticleID" label="文章ID" width="180">
                 </el-table-column>
-                <el-table-column prop="userId" label="UserID" width="180">
+                <el-table-column prop="CommentID" label="评论ID" width="180">
                 </el-table-column>
-                <el-table-column prop="title" label="Title"> </el-table-column>
-                <el-table-column prop="lastEditDate" label="LastEditDate">
+                <el-table-column prop="UserID" label="用户ID">
                 </el-table-column>
-                <el-table-column prop="status" label="Status">
+                <el-table-column prop="UserLogin" label="用户名">
+                </el-table-column>
+                <el-table-column prop="Status" label="Status">
                 </el-table-column>
                 <el-table-column prop="action" label="Action">
                   <template slot-scope="scope">
@@ -282,17 +296,12 @@
                       :disabled="scope.row.blockDisabled"
                       >拉黑</el-button
                     >
-                    <el-button
+                      <el-button
                       size="small"
                       type="text"
                       @click="commentRemove(scope.$index, scope.row)"
+                      :disabled="scope.row.deleteDisabled"
                       >删除</el-button
-                    >
-                    <el-button
-                      size="small"
-                      type="text"
-                      @click="commentDetail(scope.$index, scope.row)"
-                      >文章详情</el-button
                     >
                   </template>
                 </el-table-column>
@@ -446,7 +455,7 @@ export default {
       value1: "",
       tableData: [],
       tableData1: [],
-      tableData2: [],
+      commentsData: [],
       tableData3: [],
       statusKeyValue: {
         Y: "正常",
@@ -461,9 +470,13 @@ export default {
   methods: {
     // 返回主页
     goback() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
-    handleClick(tab, event) {},
+    handleClick(tab, event) {
+      // 清空框框
+      this.contentDetail='';
+    },
+    // 下面框框显示
     rowclick(row, event, column) {
       if (row.Content) {
         this.contentDetail = row.Content;
@@ -474,33 +487,33 @@ export default {
     getArticleHref(item) {
       return `/read/${item.ArticleID}`;
     },
+    updateStatus(items) {
+      for (const i in items) {
+        //   设置状态中文
+        items[i].Status = this.statusKeyValue[items[i].Status];
+        // 初始化状态
+        items[i].disabled = false;
+        items[i].blockDisabled = false;
+        items[i].deleteDisabled = false;
+        // 禁用按钮
+        if (items[i].Status == this.statusKeyValue.Y) {
+          items[i].disabled = true;
+        }
+        if (items[i].Status == this.statusKeyValue.B) {
+          items[i].blockDisabled = true;
+        }
+        if (items[i].Status == this.statusKeyValue.D) {
+          items[i].deleteDisabled = true;
+        }
+      }
+    },
     //   文章审核
     async formsearch() {
       // 搜索
       let res = await this.$http.get("/admin/article", {
         params: this.articleform,
       });
-
-      for (const i in res.data.ResultList) {
-        //   设置状态中文
-        res.data.ResultList[i].Status = this.statusKeyValue[
-          res.data.ResultList[i].Status
-        ];
-        // 初始化状态
-        res.data.ResultList[i].disabled = false;
-        res.data.ResultList[i].blockDisabled = false;
-        res.data.ResultList[i].deleteDisabled = false;
-        // 禁用按钮
-        if (res.data.ResultList[i].Status == this.statusKeyValue.Y) {
-          res.data.ResultList[i].disabled = true;
-        }
-        if (res.data.ResultList[i].Status == this.statusKeyValue.B) {
-          res.data.ResultList[i].blockDisabled = true;
-        }
-        if (res.data.ResultList[i].Status == this.statusKeyValue.D) {
-          res.data.ResultList[i].deleteDisabled = true;
-        }
-      }
+      this.updateStatus(res.data.ResultList);
       this.tableData = res.data.ResultList;
     },
     async changeStatus(data) {
@@ -529,26 +542,7 @@ export default {
       let res = await this.$http.get("/admin/photo", {
         params: this.photoform,
       });
-      for (const i in res.data.ResultList) {
-        //   设置状态中文
-        res.data.ResultList[i].Status = this.statusKeyValue[
-          res.data.ResultList[i].Status
-        ];
-        // 初始化状态
-        res.data.ResultList[i].disabled = false;
-        res.data.ResultList[i].blockDisabled = false;
-        res.data.ResultList[i].deleteDisabled = false;
-        // 禁用按钮
-        if (res.data.ResultList[i].Status == this.statusKeyValue.Y) {
-          res.data.ResultList[i].disabled = true;
-        }
-        if (res.data.ResultList[i].Status == this.statusKeyValue.B) {
-          res.data.ResultList[i].blockDisabled = true;
-        }
-        if (res.data.ResultList[i].Status == this.statusKeyValue.D) {
-          res.data.ResultList[i].deleteDisabled = true;
-        }
-      }
+      this.updateStatus(res.data.ResultList);
       this.tableData1 = res.data.ResultList;
     },
     async changePhotoStatus(data) {
@@ -583,29 +577,8 @@ export default {
       let res = await this.$http.get("/admin/comment", {
         params: this.messageForm,
       });
-      for (const i in this.statusKeyValue) {
-        for (const k in res.data.ResultList) {
-          console.log(res.data.ResultList[k]);
-          if (res.data.ResultList[k].Status == i) {
-            res.data.ResultList[k].Status = this.statusKeyValue[i];
-            console.log(res.data.ResultList[k].status);
-          }
-        }
-      }
-      for (const i in res.data.ResultList) {
-        //    console.log(res.data.ResultList[i]);
-        res.data.ResultList[i].disabled = false;
-        res.data.ResultList[i].blockDisabled = false;
-      }
-
-      for (const i in res.data.ResultList) {
-        if (res.data.ResultList[i].Status == "正常") {
-          res.data.ResultList[i].disabled = true;
-        } else if (res.data.ResultList[i].Status == "拉黑") {
-          res.data.ResultList[i].blockDisabled = true;
-        }
-      }
-      this.tableData2 = res.data.ResultList;
+      this.updateStatus(res.data.ResultList);
+      this.commentsData = res.data.ResultList;
     },
     async changeCommentStatus() {
       let res = await this.$http.put(
@@ -613,28 +586,15 @@ export default {
       );
     },
     async commentAgree(index, value) {
-      await this.changeCommentStatus({
-        comment_id: value.CommentID,
-        status: "Y",
-      });
+      await this.changeCommentStatus({comment_id: value.CommentID,status: "Y",});
       await this.messageClick();
-      value.disabled = true;
-      value.blockDisabled = false;
     },
     async commentBlock() {
-      value.blockDisabled = true;
-      value.disabled = false;
-      await this.changeCommentStatus({
-        comment_id: value.CommentID,
-        status: "B",
-      });
+      await this.changeCommentStatus({comment_id: value.CommentID,status: "B",});
       await this.messageClick();
     },
     async commentRemove() {
-      await this.changeCommentStatus({
-        comment_id: value.CommentID,
-        status: "D",
-      });
+      await this.changeCommentStatus({comment_id: value.CommentID,status: "D",});
       await this.messageClick();
     },
     // 用户管理
@@ -642,25 +602,7 @@ export default {
       let res = await this.$http.get("/admin/user", {
         params: this.userForm,
       });
-      for (const i in res.data.ResultList) {
-        //   设置状态中文
-        res.data.ResultList[i].Status = this.statusKeyValue[
-          res.data.ResultList[i].Status
-        ];
-        // 初始化状态
-        res.data.ResultList[i].disabled = false;
-        res.data.ResultList[i].blockDisabled = false;
-        res.data.ResultList[i].IsAdmin = res.data.ResultList[i].IsAdmin
-          ? "是"
-          : "否";
-        // 禁用按钮
-        if (res.data.ResultList[i].Status == this.statusKeyValue.Y) {
-          res.data.ResultList[i].disabled = true;
-        }
-        if (res.data.ResultList[i].Status == this.statusKeyValue.B) {
-          res.data.ResultList[i].blockDisabled = true;
-        }
-      }
+      this.updateStatus(res.data.ResultList);
       this.tableData3 = res.data.ResultList;
     },
     async updateUser(data) {
