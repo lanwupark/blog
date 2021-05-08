@@ -94,13 +94,12 @@
                       :disabled="scope.row.deleteDisabled"
                       >删除</el-button
                     >
-                    <a
+                    <el-button
                       size="small"
-                      class=""
                       type="text"
-                      :href="getArticleHref(scope.row)"
-                      target="__blank"
-                      >文章详情</a
+                      @click="getArticleHref(scope.row)"
+                      :disabled="scope.row.deleteDisabled"
+                      >文章详情</el-button
                     >
                   </template>
                 </el-table-column>
@@ -257,11 +256,9 @@
                 >
                 </el-date-picker>
               </div>
-              <el-button class="search-btn" @click="messageClick"
+              <el-button class="search-CommentBtn" @click="messageClick"
                 >Search</el-button>
             </div>
-            <el-button class="search-btn" @click="messageClick"
-                >Search</el-button>
             <div class="content-list">
               <el-table
                 :data="commentsData"
@@ -728,5 +725,13 @@ export default {
 }
 .y {
   color: gray;
+}
+
+.content-detail img {
+  width: 200px;
+  height: 200px;
+}
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+    width: 160px;
 }
 </style>
