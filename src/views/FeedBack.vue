@@ -25,7 +25,6 @@
             <!-- 头侧用户和好友列表 -->
             <div class="right">
                 <Person></Person>
-                <!-- <Friends></Friends> -->
             </div>
         </div>
         <!-- 底部公共组件 -->
