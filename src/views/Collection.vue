@@ -7,7 +7,7 @@
         </div>
         <div class="center-box">
             <div class="backMain" @click="goback">返回首页>></div>
-            <span class="backMain createAlbum" @click="createAlbum">创建相册>></span>
+            <span class="backMain createAlbum" @click="createAlbum">个人信息>></span>
             <div class="main-page">
                 <div class="page-title">收藏列表</div>
                 <div class="msg-item" v-for="(item, index) in collection" :key="index">
@@ -66,10 +66,10 @@ export default {
     methods: {
         // 返回主页
         goback() {
-            this.$router.push("/oauth/token");
+            this.$router.push("/");
         },
         createAlbum() {
-            this.$router.push("/album");
+            this.$router.push("/person");
         },
         articleDetail(param) {
             console.log('nayige',param);
@@ -129,14 +129,14 @@ export default {
     .bottom {
         width: 100%;
         position: absolute;
-        top: 820px;
+        top: 980px;
         left: 0;
     }
 }
 
 .main-page {
     width: calc(100% - 490px);
-    height: 724px;
+    height: 780px;
     background: #fff;
     border: 2px solid #ccc;
     position: absolute;
@@ -188,11 +188,6 @@ export default {
             margin-right: 40px;
         }
     }
-}
-
-.person-msg {
-    position: relative;
-    top: 40px;
 }
 
 /deep/ .el-tabs__item {

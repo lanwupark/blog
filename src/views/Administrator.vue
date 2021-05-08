@@ -1,7 +1,12 @@
 <template>
   <!-- 管理员 -->
   <div class="main-box">
+    <div id="nav">
+      <!-- 顶部公共组件 -->
+      <Top></Top>
+    </div>
     <div class="center-box">
+      <div class="backMain" @click="goback">返回首页>></div>
       <div class="main-page">
         <el-tabs class="main-nav" v-model="activeName" @tab-click="handleClick">
           <!-- 文章审核 -->
@@ -394,9 +399,11 @@
 
 <script>
 import Bottom from "@/components/Bottom.vue";
+import Top from "@/components/Top.vue";
 export default {
   components: {
     Bottom,
+    Top,
   },
   data() {
     var defaultDateFrom = new Date();
@@ -452,6 +459,10 @@ export default {
     };
   },
   methods: {
+    // 返回主页
+    goback() {
+      this.$router.push('/')
+    },
     handleClick(tab, event) {},
     rowclick(row, event, column) {
       if (row.Content) {
@@ -664,7 +675,7 @@ export default {
     async userBlock(index, value) {
       await this.updateUser({ user_id: value.UserID, status: "B" });
       await this.userClick();
-    }
+    },
   },
 };
 </script>
@@ -680,6 +691,18 @@ export default {
     .right {
       position: absolute;
       right: 40px;
+    }
+    .backMain {
+      position: relative;
+      left: 60px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+      cursor: pointer;
+
+      &:hover {
+        color: #444;
+      }
     }
   }
 

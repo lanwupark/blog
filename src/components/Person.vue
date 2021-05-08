@@ -9,10 +9,12 @@
             </div>
         </div>
         <div class="person-func">
-            <router-link to="/album" class="btn-detail">我的相册</router-link>
-            <router-link to="/collection" class="btn-detail">我的收藏</router-link>
-            <router-link to="/person" class="btn-detail">我的文章</router-link>
+            <router-link to="/album" class="btn-detail">新建相册</router-link>
             <router-link to="/write" class="btn-detail">撰写文章</router-link>
+            <router-link to="/collection" class="btn-detail">我的收藏</router-link>
+            <router-link to="/person" class="btn-detail">个人信息</router-link>
+             <router-link to="/myAlbum" class="btn-detail">我的相册</router-link>
+            <router-link to="/admin" class="btn-detail">管理员</router-link>
         </div>
     </div>
 </template>
@@ -45,7 +47,7 @@
 .person-msg {
     // margin-top: 0;
     width: 320px;
-    height: 280px;
+    height: 300px;
     background: #fff;
     border: 2px solid #ccc;
 }

@@ -68,7 +68,7 @@
 
 <style lang="scss" scoped>
 .friends-msg {
-    margin: 30px 0;
+    margin: 70px 0;
     width: 320px;
     height: 410px;
     background: #fff;

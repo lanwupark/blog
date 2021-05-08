@@ -7,7 +7,7 @@
         <div class="center-box">
             <!-- 撰写|编辑文章 -->
             <div class="backMain" @click="goback">返回首页>></div>
-            <span class="backMain myArticle" @click="myArticle">我的文章>></span>
+            <span class="backMain myArticle" @click="myArticle">个人信息>></span>
             <div class="write-page">
                 <!-- 标题 -->
                 <div class="write-title">
@@ -148,7 +148,7 @@ export default {
     methods: {
         // 返回主页
         goback() {
-            this.$router.push('/oauth/token')
+            this.$router.push('/')
         },
         // 我的文章
         myArticle() {
@@ -192,6 +192,7 @@ export default {
                     Content: that.validateForm.text,
             }).then((res) =>{
                 that.myArticleId = res.data.Result;
+                this.$router.go(0);
             }).catch(e=>e)
 
             that.$refs[formName].validate((valid) => {
@@ -202,6 +203,7 @@ export default {
                     return false;
                 }
             });
+
         },
         // 取消按钮置空
         resetForm(formName) {

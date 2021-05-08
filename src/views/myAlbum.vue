@@ -63,7 +63,7 @@ export default {
   methods: {
     // 返回主页
     goback() {
-      this.$router.push("/oauth/token");
+      this.$router.push("/");
     },
     createAlbum() {
       this.$router.push("/album");
@@ -104,7 +104,7 @@ export default {
   position: relative;
   background: #eee;
   .center-box {
-    min-height: 1200px;
+    min-height: 1080px;
     position: relative;
 
     .right {
@@ -141,7 +141,7 @@ export default {
   width: calc(100% - 490px);
   background: #fff;
   border: 2px solid #ccc;
-  min-height: 1080px;
+  min-height: 980px;
   position: absolute;
   top: 40px;
   left: 55px;

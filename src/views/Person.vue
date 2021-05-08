@@ -75,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="personInfo-image">
+                <!-- <div class="personInfo-image">
                     <div class="image-nav">
                         <span class="image-author">yanrui6666的相册</span>
                         <router-link to="/album" class="image-add">新建相册</router-link>
@@ -92,7 +92,7 @@
                     <div class="image-more">
                         查看更多>>
                     </div>
-                </div>
+                </div> -->
 
             </div>
             <!-- 头侧用户和好友列表 -->
@@ -127,38 +127,8 @@ export default {
         userHeads: '',
         // 个人信息
         userInfo: {},
-            // {
-            //     icon: require('../assets/img/person.png'),
-            //     userName: 'yanrui6666',
-            //     bio: 'hello world',
-            //     email: 'yanrui666@qq.com',
-            //     collection: '10',
-            //     beLike: '111',
-            //     joinDay: '320',
-            // }
         // 文章
-        personArticle: [
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     lastReply: 'canson',
-            //     comment: '2',
-            //     collection: '10',
-            //     like: '38',
-            // },
-            // {
-            //     title: '[王道官方公告] 王道训练营2021年开班情况（短期班、Python|C++|JAVA）',
-            //     website: '训练营',
-            //     tip: '考研',
-            //     time: '两天前',
-            //     lastReply: 'canson',
-            //     comment: '2',
-            //     collection: '10',
-            //     like: '38',
-            // },
-        ],
+        personArticle: [],
         // 相册
         personImage: [
             {
@@ -182,7 +152,7 @@ export default {
     methods: {
       // 返回主页
       goback() {
-          this.$router.push('/oauth/token')
+          this.$router.push('/')
       },
       handleClick(tab, event) {
         console.log(tab, event);
@@ -212,7 +182,7 @@ export default {
     position: relative;
     background:#eee;
     .center-box {
-        height: 1100px;
+        height: 1000px;
         position: relative;
 
         .right {
@@ -235,7 +205,7 @@ export default {
       
         .personInfo {
             width: calc(100% - 590px);
-            min-height: 900px;
+            min-height: 880px;
             background: #fff;
             border: 2px solid #ccc;
             position: absolute;

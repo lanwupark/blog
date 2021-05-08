@@ -110,9 +110,9 @@ export default {
         .catch((e) => e);
     },
     articleDetail(param) {
-            // 请求文章详情,
-            this.$router.push({path: `/read/${param}`})
-        },
+      // 请求文章详情,
+      this.$router.push({path: `/read/${param}`})
+    },
   },
   created() {
     // 登录成功显示完整页面
@@ -147,7 +147,7 @@ body .el-scrollbar__wrap {
   position: relative;
   background: #eee;
   .center-box {
-    height: 1000px;
+    height: 1040px;
     position: relative;
 
     .right {
@@ -159,14 +159,14 @@ body .el-scrollbar__wrap {
   .bottom {
     width: 100%;
     position: absolute;
-    top: 900px;
+    top: 960px;
     left: 0;
   }
 }
 
 .main-page {
   width: calc(100% - 490px);
-  height: 724px;
+  height: 742px;
   background: #fff;
   border: 2px solid #ccc;
   position: absolute;

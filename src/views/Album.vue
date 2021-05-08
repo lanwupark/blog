@@ -105,7 +105,7 @@ export default {
     methods: {
         // 返回主页
         goback() {
-            this.$router.push('/oauth/token')
+            this.$router.push('/')
         },
         myAlbum() {
             this.$router.push('/myAlbum')
@@ -175,7 +175,7 @@ export default {
     position: relative;
     background:#eee;
     .center-box {
-        height: 1200px;
+        height: 1080px;
         position: relative;
 
         .right {
@@ -204,7 +204,7 @@ export default {
     .bottom {
         width: 100%;
         position: absolute;
-        top: 1180px;
+        top: 1080px;
         left: 0;
     }
 }
@@ -212,7 +212,7 @@ export default {
     width: calc(100% - 490px);
     background: #fff;
     border: 2px solid #ccc;
-    height: 1080px;
+    height: 880px;
     position: absolute;
     top: 40px;
     left: 55px;

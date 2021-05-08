@@ -106,7 +106,7 @@ export default {
     .bottom {
         width: 100%;
         position: absolute;
-        top: 820px;
+        top: 980px;
         left: 0;
     }
 }
@@ -114,7 +114,7 @@ export default {
     width: calc(100% - 490px);
     background: #fff;
     border: 2px solid #ccc;
-    height: 724px;
+    height: 780px;
     position: absolute;
     top: 20px;
     left: 55px;
@@ -161,7 +161,10 @@ export default {
     }
 }
 
-    
+.contact-detail {
+    position: relative;
+    left: -98px;
+}
 
 
 

@@ -1,10 +1,10 @@
 <template>
     <div class="bottomBox">
         <div class="selectBtn">
-            <router-link to="/" class="btn-detail">关于</router-link>
-            <router-link to="/feedBack" class="btn-detail">FaceBook</router-link>
+            <router-link to="http://cishan.chinanpo.gov.cn/platform/login.html" class="btn-detail">关于</router-link>
+            <router-link to="/feedBack" class="btn-detail">FeedBack</router-link>
             <router-link @click.native="go" to="" class="btn-detail">Github</router-link>
-            <router-link to="/" class="btn-detail">捐赠</router-link>
+            <router-link @click.native="go" to="/" class="btn-detail">捐赠</router-link>
         </div>
         <p class="bottom-text">@2021 lanwupark blog 蓝屋苑博客</p>
         <p class="bottom-text">VEWSION v1.0.0 为了更好的体验，本站推荐使用Chrome或Firefox浏览器</p>
