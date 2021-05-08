@@ -68,7 +68,7 @@ export default {
     methods: {
         // 返回主页
         goback() {
-            this.$router.push('/oauth/token')
+            this.$router.push('/')
         },
         // 我的文章
         myArticle() {

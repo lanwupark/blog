@@ -152,7 +152,7 @@ export default {
   methods: {
     // 返回主页
     goback() {
-      this.$router.push("/oauth/token");
+      this.$router.push("/");
     },
     // 我的文章
     myArticle() {
@@ -383,10 +383,14 @@ export default {
       color: #555;
     }
 
-    .introduction-text,
-    .principle-text {
-      margin-top: 10px;
-      font-size: 18px;
+    .introduction-text {
+      margin: 10px 60px 0 -60px;
+      padding: 15px;
+      font-size: 17px;
+      color: #444;
+      border: 1px solid #666;
+      line-height: 28px;
+      text-indent: 30px;
     }
   }
 
@@ -481,20 +485,20 @@ export default {
 /deep/ .deleteBtn {
   width: 40px;
   height: 40px;
-  position: absolute;
-  left: 1450px;
+  position: relative;
+  left: 1000px;
 }
 /deep/ .deleteBtnSecond {
   width: 40px;
   height: 40px;
-  position: absolute;
-  left: 1462px;
+  position: relative;
+  left: 1000px;
 }
 
 /deep/ .replyBtn {
   width: 40px;
   height: 40px;
-  position: absolute;
-  left: 1380px;
+  position: relative;
+  left: 980px;
 }
 </style>

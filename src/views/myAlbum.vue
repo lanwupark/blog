@@ -90,6 +90,7 @@ export default {
         that.$http
           .get(`/album/${userID}`)
           .then((res) => {
+            console.log(res, 6398);
             that.albumInfo = res.data.ResultList;
           })
           .catch((e) => e);

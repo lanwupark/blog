@@ -147,7 +147,7 @@ body .el-scrollbar__wrap {
   position: relative;
   background: #eee;
   .center-box {
-    height: 1040px;
+    height: 1010px;
     position: relative;
 
     .right {
@@ -159,14 +159,14 @@ body .el-scrollbar__wrap {
   .bottom {
     width: 100%;
     position: absolute;
-    top: 960px;
+    top: 910px;
     left: 0;
   }
 }
 
 .main-page {
   width: calc(100% - 490px);
-  height: 742px;
+  height: 750px;
   background: #fff;
   border: 2px solid #ccc;
   position: absolute;
@@ -182,6 +182,10 @@ body .el-scrollbar__wrap {
   height: 80px;
   margin-left: 18px;
   border-bottom: 2px solid rgb(228, 225, 225);
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &:last-child {
     border: none;

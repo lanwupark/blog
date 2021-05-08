@@ -45,7 +45,7 @@
                          <div class="msg-item" v-for="(item, index) in personArticle" :key="index">
                             <!-- 标题、评论 收藏 点赞-->
                             <div class="item-top">
-                                <div class="msg-title">{{item.Title}}</div>
+                                <div class="msg-title" @click="articleDetail(item.ArticleID)" :id="item.ArticleID">{{item.Title}}</div>
                                 <div class="msg-icon">
                                     <div class="comment">
                                         <img src="../assets/img/msg2.png" alt="">
@@ -157,6 +157,11 @@ export default {
       handleClick(tab, event) {
         console.log(tab, event);
       },
+      articleDetail(param) {
+        // 请求文章详情,
+        let that = this;
+        that.$router.push({path: `/read/${param}`})
+     },
     },
     created() {
         // 请求用户信息
@@ -334,6 +339,9 @@ export default {
                             img {
                                 width: 30px;
                                 height: 30px;
+                            }
+                            .msg-title:hover {
+                                cursor: pointer;
                             }
 
                             .msg-icon {

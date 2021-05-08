@@ -685,7 +685,7 @@ export default {
   position: relative;
   background: #eee;
   .center-box {
-    height: 1000px;
+    height: 1200px;
     position: relative;
 
     .right {
@@ -709,14 +709,14 @@ export default {
   .bottom {
     width: 100%;
     position: absolute;
-    top: 960px;
+    top: 1200px;
     left: 0;
   }
 }
 
 .main-page {
   width: calc(100% - 100px);
-  min-height: 890px;
+  min-height: 1000px;
   background: #fff;
   border: 2px solid #ccc;
   position: absolute;

@@ -142,7 +142,7 @@ export default {
                 Location: that.$refs.getAddress.value,
                 PhotoList: that.fileName,
             }).then((res) =>{
-                console.log(444, res.data);
+                this.$router.go(0);
             // }).catch(e=>e)
             }).catch(e=>e)
         },
