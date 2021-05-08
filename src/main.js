@@ -26,33 +26,36 @@ Axios.defaults.headers.post['Content-Type'] = 'application/json;charset="UTF-8"'
 
 Axios.interceptors.request.use(
   config => {
-      // 自定义header信息（比如token）
-      // console.log("请求拦截器添加userId-----------",sessionStorage.userId)
-      if(!config.headers['Authorization']){
-          config.headers['Authorization'] = localStorage.getItem("Token");
-      }
-      // console.log(config)
-      return config;
+    // 自定义header信息（比如token）
+    if (!config.headers['Authorization']) {
+      config.headers['Authorization'] = localStorage.getItem("Token");
+    }
+    // console.log(config)
+    return config;
   }, function (error) {
-      // 对请求错误做些什么
-      alert('请先登录');
-      return Promise.reject(error);
+    // 对请求错误做些什么
+    alert('请先登录');
+    return Promise.reject(error);
   }
 );
 
 Axios.interceptors.response.use(
-  config => {
-      if(config.headers['Set-Token']){
-          window.localStorage.setItem('Token',config.headers['Set-Token']);
-      }
-      return config;
+  response => {
+    const newTokenName='set-token';
+    if (response.headers[newTokenName]) {
+      window.localStorage.setItem('Token', response.headers[newTokenName]);
+    }
+    return response;
   }, function (error) {
-      if(error.data.status === 401) {
-        console.log(983);
+    if (error) {
+      if (error.data.status === 401) {
+        window.alert('401 Not Anthorized')
+        location.href="/"
       }
-      // 对请求错误做些什么
-      return Promise.reject(error);
-  }                       
+    }
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  }
 );
 Axios.defaults.withCredentials = true;
 

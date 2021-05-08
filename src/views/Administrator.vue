@@ -391,7 +391,6 @@
                 </el-table-column>
               </el-table>
             </div>
-            <div class="content-detail">{{ contentDetail }}</div>
           </el-tab-pane>
         </el-tabs>
       </div>
