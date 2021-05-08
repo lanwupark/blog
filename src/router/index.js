@@ -11,8 +11,8 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/oauth/token", // 主页
-    component:()=>import ("@/views/Main.vue")
+    path: "/oauth/token", // 登陆成功
+    component:()=>import ("@/views/LoginTip.vue")
   },
   {
     path: "/", // 主页
@@ -20,7 +20,7 @@ const routes = [
   },
   {
     name: 'read',
-    path: "/read", // 阅读博客
+    path: "/read/:articleID", // 阅读博客
     component:()=>import ("@/views/ReadArticle.vue")
   },
   {
@@ -29,7 +29,7 @@ const routes = [
   },
   {
     name: 'person',
-    path: "/person", // 个人信息
+    path: "/person/:personID", // 个人信息
     component:()=>import ("@/views/Person.vue")
   },
   {
@@ -37,7 +37,7 @@ const routes = [
     component:()=>import ("@/views/Collection.vue")
   },
   {
-    path: "/album", // 相册
+    path: "/album/:albumID", // 相册
     component:()=>import ("@/views/Album.vue")
   },
   {

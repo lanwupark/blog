@@ -35,6 +35,7 @@ Axios.interceptors.request.use(
       return config;
   }, function (error) {
       // 对请求错误做些什么
+      alert('请先登录');
       return Promise.reject(error);
   }
 );
@@ -46,11 +47,13 @@ Axios.interceptors.response.use(
       }
       return config;
   }, function (error) {
+      if(error.data.status === 401) {
+        console.log(983);
+      }
       // 对请求错误做些什么
       return Promise.reject(error);
   }                       
 );
-// Axios.defaults.baseURL = "http://192.168.43.62:7001"
 Axios.defaults.withCredentials = true;
 
 Vue.use(ElementUI);

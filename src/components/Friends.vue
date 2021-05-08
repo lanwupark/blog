@@ -36,6 +36,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                
+            }
+        },
         methods: {
              // 添加好友
             agree() {
@@ -51,6 +56,12 @@
                     console.log(9, res.data);
                 }).catch(e=>e)
             }
+        },
+        created() {
+            let that = this;
+            that.$http.get('/user/friends').then((res) =>{
+                console.log(res, 555);
+            }).catch(e=>e)
         },
     }
 </script>

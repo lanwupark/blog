@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <!-- 顶部公共组件 -->
-      <Top></Top>
+      <!-- <Top></Top> -->
     </div>
     <!-- 中部路由 -->
     <div class="middle">
@@ -14,9 +14,9 @@
       </div> -->
     </div>
     <!-- 底部公共组件 -->
-    <!-- <div id="bottom">
+    <div id="bottom">
         <Bottom></Bottom>
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -27,7 +27,7 @@ import Top from "@/components/Top.vue";
 export default {
   components: {
     Top,
-    // Bottom,
+    // Bottom,s
     // Person,
     // Friends,
   },
@@ -47,5 +47,6 @@ a {
 #app {
   background: #eee;
 }
+
 
 </style>

@@ -183,8 +183,10 @@ export default {
     }
 }
 
-
-
+.person-msg {
+    position: relative;
+    top: 40px;
+}
 
 /deep/ .el-tabs__item {
     padding: 0 40px;

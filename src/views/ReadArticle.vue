@@ -107,6 +107,7 @@ export default {
             // 二级评论（回复）
             rebackMsg: [],
             UserID: '',
+             articleDetailInfo: {},
         }
     },
     methods: {
@@ -191,14 +192,19 @@ export default {
         }
     },
     created() {
-        // 用户
-        let articleDetail = this.$route.params.articleDetail;
+        this.$http.get(`/article/${this.$route.params.articleID}`).then((res) =>{
+                console.log(res, 1111);
+                this.articleDetailInfo = res.data.Result;
+                // 用户
+        let articleDetail = this.articleDetailInfo;
         this.article = articleDetail;
         this.replyMsg = articleDetail.Comments;
         this.articleId = articleDetail.ArticleID;
         this.likeNum = this.article.Stars.length;
         this.collectNum = this.article.Favorities.length;
         console.log(articleDetail, 142);
+            }).catch(e=>e)
+        
         let userID = '';
         this.replyMsg.forEach((item)=> {
             // this.rebackMsg = item.Replies;

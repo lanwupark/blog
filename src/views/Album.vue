@@ -28,7 +28,7 @@
                     <el-upload
                         class="upload-pic"
                         drag
-                        action
+                        action="http://139.198.187.220:8080/"
                         multiple
                         show-file-list = 'true'
                         :http-request="selectPicUpload"

@@ -2,7 +2,7 @@
 <!-- 右侧用户功能框 -->
     <div class="person-msg">
         <div class="person-top">
-            <img src="@/assets/img/touxiang.png" alt="">
+            <img class="personInfo-icon" :src="userHeads" alt="">
             <div class="person-info">
                 <p class="info-name">{{userInfo.UserLogin}}</p>
                 <p class="info-sign">i'm out ya</p>
@@ -22,14 +22,19 @@
         data() {
             return {
                 userInfo: {},
+                // 头像
+                serHeads: '',
             }
         },
 
         created() {
             // 请求
             let that = this;
+            let userID = '';
             that.$http.get('/user').then((res) =>{
-                that.userInfo = res.data
+                that.userInfo = res.data;
+                userID = res.data.UserID;
+            that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
             }).catch(e=>e)
 
         },
@@ -53,8 +58,9 @@
 }
 
 .person-top img {
-    width: 115px;
-    height: 115px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
 
 .person-info {

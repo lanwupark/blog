@@ -9,7 +9,7 @@
                 <div class="msg-item" v-for="(item, index) in hotMsg" :key="index">
                     <!-- 标题、信息数量 -->
                     <div class="item-top">
-                        <div class="msg-title" @click="articleDetail(item.ArticleID)">{{item.Title}}</div>
+                        <div class="msg-title" @click="articleDetail(item.ArticleID)" :id="item.ArticleID">{{item.Title}}</div>
                         <div class="comment">
                             <img src="../assets/img/msg2.png" alt="">
                             <span>{{item.CommentNumber}}</span>
@@ -72,16 +72,10 @@ export default {
             }})
         },
         articleDetail(param) {
-            console.log(param);
-            // 请求文章详情
+            console.log('nayige',param);
+            // 请求文章详情,
             let that = this;
-            that.$http.get(`/article/${param}`).then((res) =>{
-                console.log(res, 1111);
-                that.articleDetailInfo = res.data.Result;
-                that.$router.push({name: 'read', params: {
-                            articleDetail: that.articleDetailInfo
-                        }})
-            }).catch(e=>e)
+            that.$router.push({path: `/read/${param}`})
         },
         // 删除文章
         deleteArticle(articleID) {

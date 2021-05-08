@@ -12,6 +12,7 @@
                         v-for="(item, index) in albumInfo"
                         :key="index"
                         class="albumInfo"
+                        :src="albumPic"
                     >
                     <!--  :src="item." alt=""
                         @click="albumDetail" -->
@@ -44,6 +45,7 @@ export default {
         return {
             albumInfo: [],
             uuidName: '',
+            albumPic: `/images/${this.uuidName}`,
         }
     },
     methods: {
@@ -74,8 +76,9 @@ export default {
     },
     updated() {
         console.log(3123, this.uuidName);
+        console.log(1112, `/images/${this.uuidName}`);
         this.$http.get(`/images/${this.uuidName}`).then((res) =>{
-            console.log(6);
+            console.log(6, res);
         }).catch(e=>e)
     },
 };
@@ -142,6 +145,11 @@ export default {
             border: none;
             border-bottom: 1px solid #bbb;
         }
+    }
+
+    .albumInfo {
+        width: 200px;
+        height: 200px;
     }
 }
 </style>
