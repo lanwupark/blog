@@ -52,7 +52,7 @@
           <div class="replyBox">
             <span>{{ replyMsg.length }} 条评论</span>
             <div class="reply" v-for="(item, index) in replyMsg" :key="index">
-              <img :src="userHeads" alt="" />
+              <img :src="item.Src" alt="" />
               <div class="userInfo">
                 <span class="userName">{{ item.UserID }}</span>
                 <span class="replyTime">{{ item.CreateAt }}</span>
@@ -79,7 +79,7 @@
                   :key="index2"
                 >
                   <div class="rebackTitle">回复：</div>
-                  <img :src="userHeads" alt="" />
+                  <img :src="reply.Src" alt="" />
                   <div class="userInfo">
                     <span class="userName">{{ reply.UserID }}</span>
                     <span class="replyTime">{{ reply.CreateAt }}</span>
@@ -131,8 +131,6 @@ export default {
   },
   data() {
     return {
-      // 头像
-      userHeads: "",
       article: {},
       articleId: "",
       likeNum: 1,
@@ -265,31 +263,36 @@ export default {
         })
         .catch((e) => e);
     },
+    circuit(ReplyItems){
+      if(ReplyItems){
+        ReplyItems.forEach((item)=>{
+          item.Src = `https://avatars1.githubusercontent.com/u/${item.UserID}?v=4`;
+          // 递归
+          this.circuit(ReplyItems.Replies);
+        })
+      }
+    }
   },
   created() {
     let that = this;
     that.$http
       .get(`/article/${that.$route.params.articleID}`)
       .then((res) => {
-        console.log(res, 1111);
         that.articleDetailInfo = res.data.Result;
         // 用户
         let articleDetail = that.articleDetailInfo;
         that.article = articleDetail;
         that.replyMsg = articleDetail.Comments || [];
+        that.replyMsg.forEach((item) => {
+          // this.rebackMsg = item.Replies;
+          item.Src = `https://avatars1.githubusercontent.com/u/${item.UserID}?v=4`;
+          that.circuit(item.Replies);
+        });
         that.articleId = articleDetail.ArticleID;
         that.likeNum = that.article.Stars.length;
         that.collectNum = that.article.Favorities.length;
-        console.log(articleDetail, 142);
       })
       .catch((e) => e);
-
-    let userID = "";
-    that.replyMsg.forEach((item) => {
-      // this.rebackMsg = item.Replies;
-      userID = item.UserID;
-      that.userHeads = `https://avatars1.githubusercontent.com/u/${userID}?v=4`;
-    });
     that.$http
       .get("/user")
       .then((res) => {
