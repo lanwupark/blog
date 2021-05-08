@@ -72,7 +72,6 @@ export default {
             this.$router.push("/person");
         },
         articleDetail(param) {
-            console.log('nayige',param);
             // 请求文章详情,
             let that = this;
             that.$router.push({path: `/read/${param}`})
@@ -83,11 +82,9 @@ export default {
         let that = this;
         let userID = '';
         that.$http.get('/user').then((res) =>{
-            console.log(res.data, 4);
             userID = res.data.UserID;
             that.$http.get(`/article/favorite/${userID}`).then((res) =>{
                 that.collection = res.data.ResultList;
-                console.log(480, res.data);
             }).catch(e=>e)
         }).catch(e=>e)
        

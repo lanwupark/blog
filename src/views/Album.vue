@@ -19,15 +19,6 @@
                         <!-- <span>发布时间：{{item.releaseTime}}</span> -->
                     </div>
                     <textarea class="album-desc" ref="getDesc" placeholder="请输入相册描述"></textarea>
-                    <!-- <div class="image-items">
-                        <div class="image-item" v-for="(item, index) in personImage" :key="index">
-                            <img :src="item.src" alt="">
-                            <div class="image-detail">
-                                <span>相册{{item.id}}</span>
-                                <span>{{item.time}}</span>
-                            </div>
-                        </div>
-                    </div> -->
                     <!-- 上传图片 -->
                     <el-upload
                         class="upload-pic"
@@ -73,12 +64,6 @@ export default {
     data() {
         return {
             album: {},
-                // {
-                //     title: '风景',
-                //     address: '重庆',
-                //     releaseTime: '2020-12-18',
-                //     desc: '重庆是一座地形地貌独特的山水城市。远看是山,近看是城,城在山上,山在城中,所以也叫“山城”',
-                // }
             // 相册
             personImage: [
                 {
@@ -112,21 +97,15 @@ export default {
         },
         // 我的相册
         uploadPic(file, fileList) {
-            console.log(file, 100);
             this.srcName = file.name
         },
         // 上传图片
         selectPicUpload (obj) {
-            // let fd = new FormData();
-            // fd.append("file", obj.file);
             // 请求
             let that = this;
             // 图片
             that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`,obj.file).then((res) =>{
-                console.log(333, res.data); 
                 that.fileName.push(res.data.Result.FileName);
-                console.log(that.fileName, 88);
-                that.onSubmit();
             }).catch(e=>e)
         },
         // 创建相册
@@ -134,7 +113,6 @@ export default {
             // 请求
             let that = this;
             // 相册
-            // console.log(55, that.albumId, that.$refs.getTitle.value, that.$refs.getAddress.value, that.fileName);
             that.$http.post('/album',{
                 AlbumID: that.albumId,
                 Title: that.$refs.getTitle.value,
@@ -142,6 +120,7 @@ export default {
                 Location: that.$refs.getAddress.value,
                 PhotoList: that.fileName,
             }).then((res) =>{
+                window.alert('上传成功!');
                 this.$router.go(0);
             // }).catch(e=>e)
             }).catch(e=>e)
@@ -163,7 +142,6 @@ export default {
         // 请求
         let that = this;
         that.$http.get('/common/generate_id').then((res) =>{
-            console.log(222, res.data);
             that.albumId = res.data.Result;
         }).catch(e=>e)
     },

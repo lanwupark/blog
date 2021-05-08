@@ -7,7 +7,7 @@
         </div>
         <div class="center-box">
             <div class="backMain" @click="goback">返回首页>></div>
-            <span class="backMain myArticle" @click="myArticle">我的文章>></span>
+            <span class="backMain myArticle" @click="myArticle">搜索结果>></span>
             <div class="main-page">
                 <div class="page-title">文章列表</div>
                 <div class="msg-item" v-for="(item, index) in hotMsg" :key="index">
@@ -78,7 +78,6 @@ export default {
             }})
         },
         articleDetail(param) {
-            console.log('nayige',param);
             // 请求文章详情,
             let that = this;
             that.$router.push({path: `/read/${param}`})
@@ -87,7 +86,6 @@ export default {
         deleteArticle(articleID) {
             let that = this;
             that.$http.delete(`/article/comment/${articleID}`).then((res) =>{
-                    console.log(666, res.data);
                     alert('success')
                 }).catch(e=>e)
         },
@@ -95,7 +93,6 @@ export default {
     created() {
         let articleList = this.$route.params.articleList;
         this.hotMsg = articleList;
-        console.log(1421, this.hotMsg);
     },
 };
 </script>

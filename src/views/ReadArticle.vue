@@ -174,7 +174,6 @@ export default {
             LikeType: "F",
           })
           .then((res) => {
-            console.log(21, res.data);
           })
           .catch((e) => e);
       }
@@ -184,7 +183,6 @@ export default {
         that.$http
           .delete(`/article/like/${that.articleId}/F`)
           .then((res) => {
-            console.log(22, res.data);
           })
           .catch((e) => e);
       }
@@ -201,7 +199,6 @@ export default {
             LikeType: "S",
           })
           .then((res) => {
-            console.log(31, res.data);
           })
           .catch((e) => e);
       }
@@ -211,7 +208,6 @@ export default {
         that.$http
           .delete(`/article/like/${that.articleId}/S`)
           .then((res) => {
-            console.log(32, res.data);
           })
           .catch((e) => e);
       }
@@ -222,7 +218,6 @@ export default {
       that.$http
         .delete(`/article/comment/${commentID}`)
         .then((res) => {
-          console.log(666, res.data);
           alert("success");
         })
         .catch((e) => e);
@@ -250,7 +245,6 @@ export default {
           Content: that.$refs.replyContent.value,
         })
         .then((res) => {
-          console.log(51, res.data);
           alert("success");
           that.$set(that.replyMsg, that.replyMsg.length, {
             Content: that.$refs.replyContent.value,

@@ -84,13 +84,11 @@ export default {
     that.$http
       .get("/user")
       .then((res) => {
-        console.log(res.data, 4);
         userID = res.data.UserID;
         // 相册
         that.$http
           .get(`/album/${userID}`)
           .then((res) => {
-            console.log(res, 6398);
             that.albumInfo = res.data.ResultList;
           })
           .catch((e) => e);
