@@ -47,7 +47,7 @@ export default {
 .person-msg {
   // margin-top: 0;
   width: 320px;
-  height: 300px;
+  height: 414px;
   background: #fff;
   border: 2px solid #ccc;
 }
@@ -84,7 +84,7 @@ export default {
   width: 60px;
   text-align: center;
   padding: 8px 14px;
-  margin: 8px 18px 0 10px;
+  margin: 40px 18px 0 10px;
   border: 1px solid #ccc;
   color: #444;
   font-size: 14px;

@@ -59,7 +59,7 @@
       <!-- 头侧用户和好友列表 -->
       <div class="right" v-show="logined">
         <Person></Person>
-        <Friends></Friends>
+        <!-- <Friends></Friends> -->
       </div>
     </div>
     <!-- 底部公共组件 -->
