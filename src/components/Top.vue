@@ -16,20 +16,13 @@
     </div>
 </template>
 
-<script>
-// fill in your cliend_id
-//   const client_id = '8e4ba0b6518357eb4f7d';
-
-//   const authorize_uri = 'https://github.com/login/oauth/authorize';
-//   const redirect_uri = 'http://139.198.187.220:8080/oauth/redirect';
-
-//   const link = document.getElementById('login');
-    // console.log(link, 222);    
+<script> 
   
     export default {
         data() {
             return {
                 pageSearch:'',
+                defaultPageSize:20,
                 articleList: [],
                 // authorize_uri,
                 // redirect_uri,
@@ -45,8 +38,7 @@
             searchArticle() {
                 // 请求
                 let that = this;
-                that.$http.get(`/article/query`).then((res) =>{
-                    console.log(42, res);
+                that.$http.get(`/article/query?content=${that.pageSearch}&page_size=${that.defaultPageSize}`).then((res) =>{
                     that.articleList = res.data.ResultList;
                     if(this.$route.path !== '/articleList') {
                             that.$router.push({name: 'articleList', params: {
