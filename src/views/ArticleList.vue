@@ -3,7 +3,7 @@
     <div class="main-box">
         <div id="nav">
             <!-- 顶部公共组件 -->
-            <Top></Top>
+            <Top @eventitem="recieveitem"></Top>
         </div>
         <div class="center-box">
             <div class="backMain" @click="goback">返回首页>></div>
@@ -89,10 +89,16 @@ export default {
                     alert('success')
                 }).catch(e=>e)
         },
+        // 接收子组件的数据
+        recieveitem(item){
+          console.log(item);
+          this.hotMsg = item
+        }
     },
     created() {
         let articleList = this.$route.params.articleList;
         this.hotMsg = articleList;
+        console.log( this.hotMsg);
     },
 };
 </script>

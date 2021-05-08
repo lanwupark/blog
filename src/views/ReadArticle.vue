@@ -173,8 +173,7 @@ export default {
           .post(`/article/like/${that.articleId}`, {
             LikeType: "F",
           })
-          .then((res) => {
-          })
+          .then((res) => {})
           .catch((e) => e);
       }
       // 取消
@@ -182,8 +181,7 @@ export default {
         that.collectNum = that.collectNum - 1;
         that.$http
           .delete(`/article/like/${that.articleId}/F`)
-          .then((res) => {
-          })
+          .then((res) => {})
           .catch((e) => e);
       }
     },
@@ -198,8 +196,7 @@ export default {
           .post(`/article/like/${that.articleId}`, {
             LikeType: "S",
           })
-          .then((res) => {
-          })
+          .then((res) => {})
           .catch((e) => e);
       }
       // 取消
@@ -207,8 +204,7 @@ export default {
         that.likeNum = that.likeNum - 1;
         that.$http
           .delete(`/article/like/${that.articleId}/S`)
-          .then((res) => {
-          })
+          .then((res) => {})
           .catch((e) => e);
       }
     },
@@ -218,6 +214,13 @@ export default {
       that.$http
         .delete(`/article/comment/${commentID}`)
         .then((res) => {
+          // 删除评论逻辑 暂未写出
+          let removeIdx = 0;
+          that.replyMsg.forEach((item, idx) => {
+            if (item.CommentID == commentID) {
+              removeIdx = idx;
+            }
+          });
           alert("success");
         })
         .catch((e) => e);
@@ -233,7 +236,7 @@ export default {
       let that = this;
       let txt = "刚刚";
       let replyToID;
-      if (that.currentReplyItem == undefined) {
+      if (!that.currentReplyItem) {
         replyToID = that.articleId;
       } else {
         txt = `刚刚     回复于:${that.currentReplyItem.UserID}`;
@@ -250,6 +253,8 @@ export default {
             Content: that.$refs.replyContent.value,
             UserID: that.UserID,
             CreateAt: txt,
+            CommentID: res.data.Result,
+            Src: `https://avatars1.githubusercontent.com/u/${that.UserID}?v=4`,
           });
           that.$refs.replyContent.value = "";
           that.currentReplyItem == undefined;
@@ -257,15 +262,15 @@ export default {
         })
         .catch((e) => e);
     },
-    circuit(ReplyItems){
-      if(ReplyItems){
-        ReplyItems.forEach((item)=>{
+    circuit(ReplyItems) {
+      if (ReplyItems) {
+        ReplyItems.forEach((item) => {
           item.Src = `https://avatars1.githubusercontent.com/u/${item.UserID}?v=4`;
           // 递归
           this.circuit(ReplyItems.Replies);
-        })
+        });
       }
-    }
+    },
   },
   created() {
     let that = this;

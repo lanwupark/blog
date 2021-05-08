@@ -106,7 +106,9 @@ export default {
             // 图片
             that.$http.post(`/album/photo/${that.albumId}/${that.srcName}`,obj.file).then((res) =>{
                 that.fileName.push(res.data.Result.FileName);
-            }).catch(e=>e)
+            }).catch(e=>{
+                alert('出错了😰'+e)
+            })
         },
         // 创建相册
         onSubmit() {
